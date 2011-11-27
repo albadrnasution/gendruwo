@@ -5,12 +5,31 @@
 
 package gendruwo;
 
+import java.util.Map;
+
 /**
  *
  * @author User
  */
 public class Attribute {
+    String nama;
     int iAwal;
     int iAkhir;
+    String pilihan;
 
+    public Attribute(String nm, int aw, int akh, String pil){
+        nama = nm;
+        iAwal = aw;
+        iAkhir = akh;
+        pilihan = pil;
+    }
+
+    public int getPartInt(Individu individu){
+        Individu part = (Individu) individu.get(iAwal, iAkhir+1);
+        int partInt=0;
+        for(int i=0; i<(iAkhir-iAwal+1); ++i)
+            if(part.get(i)) partInt |= (1<<i);
+
+        return partInt;
+    }
 }
