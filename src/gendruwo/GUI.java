@@ -13,7 +13,7 @@ package gendruwo;
 
 /**
  *
- * @author User
+ * @author Hendra
  */
 public class GUI extends javax.swing.JFrame {
 
