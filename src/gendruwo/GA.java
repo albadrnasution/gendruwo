@@ -102,6 +102,9 @@ public class GA {
 
     
     public void secondStage(){
+        //random engine
+        Random rasgele = new Random();
+        
         
     }
             
@@ -117,7 +120,7 @@ public class GA {
             if(todo>0) beranak();
             else mutasi();
         }
-        seleksi();
+        //seleksi();
     }
 
     private void mutasi(){
@@ -133,15 +136,14 @@ public class GA {
     }
 
     private void beranak(){
-        Random rn = new Random(generasi.size()-1);
-        Random rnPos = new Random(68);
+        Random rn = new Random();
         int bapak, ibu, posisi1, posisi2;
         int loop = generasi.size()/10;
         for(int i=0; i<loop; ++i){
-            bapak = rn.nextInt();
-            ibu = rn.nextInt();
-            posisi1 = rnPos.nextInt();
-            posisi2 = rnPos.nextInt();
+            bapak = rn.nextInt(generasi.size()-1);
+            ibu = rn.nextInt(generasi.size()-1);
+            posisi1 = rn.nextInt(68);
+            posisi2 = rn.nextInt(68);
             if(posisi2>posisi1){
                 posisi1 += posisi2;
                 posisi2 = posisi1-posisi2;
@@ -162,7 +164,7 @@ public class GA {
 
 
     private void seleksi(){
-
+    
     }
 
     int fitness(Individu individu){
@@ -173,7 +175,22 @@ public class GA {
         
     }
     
-    public static final void main(String... aArgs){
+    /**
+     * fitness ini buat menghitung kecocokan populasi dalam menyampuli data yang ada
+     * @return 
+     */
+    public int fitnessPopulation(){
+        int fit = 0;
+        for(int i=0;i<training.size();++i){
+            if(training.get(i).isPoke()){
+                fit=fit+1;
+                training.get(i).setPoke(false);
+            } 
+        }
+        return fit;
+    }
+    
+    public static void main(String... aArgs){
     //log("Generating 10 random integers in range 0..99.");
     
     //note a single Random object is reused here
@@ -182,6 +199,8 @@ public class GA {
       int randomInt = randomGenerator.nextInt(100);
         System.out.println("Generated : " + randomInt);
     }
+    
+    Individu in = new Individu();
     
     //log("Done.");
   }
