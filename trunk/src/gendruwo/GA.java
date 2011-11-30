@@ -176,7 +176,7 @@ public class GA {
             /* Let's have with roulette */
             float[] roulette = new float[individuCandidate];
             for (int interRoulet = 0; interRoulet < individuCandidate; ++interRoulet) {
-                roulette[interRoulet] = generasi.get(interRoulet).getFitnessValue() / totalFitness;
+                roulette[interRoulet] = totalFitness ==0 ? 1: generasi.get(interRoulet).getFitnessValue() / totalFitness;
             }
             
             /* do crossover */
@@ -185,7 +185,7 @@ public class GA {
                 boolean foundCandidate = false;
                 int FirstCouple = 0;
                 int secondCouple = 0;
-                while (foundCandidate) {
+                while (!foundCandidate) {
                     float candidate = rasgele.nextFloat();
                     /* selecting the proposal for being a couple */
                     for (int y = 0; y < roulette.length; ++y) {
@@ -197,7 +197,7 @@ public class GA {
                     }
                 }
                 foundCandidate = false;
-                while (foundCandidate) {
+                while (!foundCandidate) {
                     float candidate = rasgele.nextFloat();
                     /* selecting the proposal for being a couple */
                     for (int y = 0; y < roulette.length; ++y) {
@@ -262,16 +262,16 @@ public class GA {
             for (int interIndividu = 0; interIndividu < population; ++interIndividu) {
                 generasi.get(interIndividu).updateFitnessIndividu(training);
             }
-            /* Temination state */
-            if (generationCounter >= CONSTANT.MAX_GENERATION) {
-                doSecondStage = false;
-                System.out.println("MAX REACHED");
-            }
             /* Other termination state */
             float accuracy = fitnessPopulation() / training.size();
             if (accuracy >= CONSTANT.DESIRED_ACCURATION) {
                 doSecondStage = false;
                 System.out.println("Congratulation, you reach accuracy "+accuracy);
+            }
+            /* Temination state */
+            if (generationCounter >= CONSTANT.MAX_GENERATION) {
+                doSecondStage = false;
+                System.out.println("MAX GENERATION REACHED, accuracy "+accuracy);
             }
         }
 
