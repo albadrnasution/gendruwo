@@ -7,6 +7,8 @@ package gendruwo;
 import java.util.BitSet;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -120,12 +122,42 @@ public class Individu extends BitSet implements Comparable {
         this.poke = poke;
     }
     
-
+    /**
+     * Urutin pake Collections.sort()
+     * Urutan hasil adalah descending berdasarkan fitnessValue.
+     * Paling hebat ada di nomor NOL.
+     * 
+     * @param anotherIndividu
+     * @return
+     * @throws ClassCastException 
+     */
     public int compareTo(Object anotherIndividu) throws ClassCastException {
         if (!(anotherIndividu instanceof Individu)) {
             throw new ClassCastException("A Individu object expected.");
         }
         int anotherFitnessValue = ((Individu) anotherIndividu).getFitnessValue();
-        return this.getFitnessValue() - anotherFitnessValue;
+        return anotherFitnessValue - this.getFitnessValue();
+    }
+    
+    public static void main(String args[]){
+        ArrayList<Individu> generasi = new ArrayList<Individu>();
+        RandomGendruwo rand = new RandomGendruwo();
+        
+        for (int i=0;i<=10;i++){
+            Individu iind = new Individu();
+            iind.fitnessValue = rand.nextInt(0, 8000);
+            generasi.add(iind);
+        }
+        
+        System.out.println("============BEFORE SORT===============");
+        for (Individu e : generasi){
+            System.out.println(e.fitnessValue);
+        }
+        
+        Collections.sort(generasi);
+        System.out.println("=============AFTER SORT===============");
+        for (Individu e : generasi){
+            System.out.println(e.fitnessValue);
+        }
     }
 }
