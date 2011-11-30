@@ -6,7 +6,6 @@ package gendruwo;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +50,7 @@ public class GA {
             // repeat until all lines is read
             reader = new BufferedReader(new FileReader(file));
             int pointer = 0, code;
-            String att= new String();
+            String att = new String();
             while ((data = reader.readLine()) != null) {
                 //parsing sebuah baris menjadi sebuah data training
                 Individu baru = new Individu(69);
@@ -72,6 +71,7 @@ public class GA {
                     pointer += 2;
                 }
                 training.add(baru);
+                generasi.add(baru);
             }
             System.out.println("Pembacaan file selesai, diperoleh " + training.size() + "data training");
         } catch (IOException ex) {
@@ -84,8 +84,9 @@ public class GA {
         int initialPopulation = generasi.size();
         int currentPopulation = generasi.size();
         boolean doFristStage = true;
-
+        int numgenerasi = 0;
         while (doFristStage) {
+            System.out.println("Generasi ke:"+numgenerasi++);
             /*Selection and Crossover*/
             float marriagePercentation = fsRand.nextFloat(CONSTANT.COVER_COUPLE_MIN, CONSTANT.COVER_COUPLE_MAX);
             int marriageCouple = (int) (marriagePercentation * currentPopulation);
@@ -94,7 +95,7 @@ public class GA {
                 int broom = fsRand.nextInt(currentPopulation);
                 int posisi1 = fsRand.nextInt(CONSTANT.CHROMOSOME_LEN);
                 int posisi2 = fsRand.nextInt(CONSTANT.CHROMOSOME_LEN);
-                if (posisi2 > posisi1) {
+                if (posisi2 < posisi1) {
                     posisi1 += posisi2;
                     posisi2 = posisi1 - posisi2;
                     posisi1 -= posisi2;
@@ -118,7 +119,6 @@ public class GA {
 
             /*Sort next generation by fitness value*/
             Collections.sort(offspring);
-
             /*Massacre parents (old generation)*/
             generasi.clear();
             /*and prepare the chosen one (the best 99,2%parent population) 
@@ -129,7 +129,7 @@ public class GA {
                 generasi.add(offspring.get(des));
             }
             offspring.clear();  /*Kill them all, the temporary offspring*/
-            currentPopulation = desiredPopulation;
+            currentPopulation = generasi.size();
 
             /*Mutation*/
             int numofMutant = (int) (CONSTANT.MUTATION_RATE * generasi.size());
@@ -148,7 +148,6 @@ public class GA {
                 doFristStage = false;
             }
         }
-
     }
 
     /**
@@ -163,6 +162,7 @@ public class GA {
         float rationCouple = 0; /* ratio Couple */
         int generationCounter = 0; /* number of generation */
         while (doSecondStage) {
+            System.out.println("Generasi ke:"+generationCounter);
             /* Sort population based on fitness function*/
             Collections.sort(generasi);
             /* get total being crossovered individu */
@@ -178,14 +178,14 @@ public class GA {
             for (int interRoulet = 0; interRoulet < individuCandidate; ++interRoulet) {
                 roulette[interRoulet] = generasi.get(interRoulet).getFitnessValue() / totalFitness;
             }
+            
             /* do crossover */
             for (int onCouple = 0; onCouple < individuCandidate / 2; ++onCouple) {
-
                 /* Let's find the individu candidates */
                 boolean foundCandidate = false;
                 int FirstCouple = 0;
                 int secondCouple = 0;
-                while (!foundCandidate) {
+                while (foundCandidate) {
                     float candidate = rasgele.nextFloat();
                     /* selecting the proposal for being a couple */
                     for (int y = 0; y < roulette.length; ++y) {
@@ -197,7 +197,7 @@ public class GA {
                     }
                 }
                 foundCandidate = false;
-                while (!foundCandidate) {
+                while (foundCandidate) {
                     float candidate = rasgele.nextFloat();
                     /* selecting the proposal for being a couple */
                     for (int y = 0; y < roulette.length; ++y) {
@@ -211,12 +211,11 @@ public class GA {
                 /* if you want to match the good one with the bad one */
 //                Individu individuL = generasi.get(onCouple);
 //                Individu individuP = generasi.get((individuCandidate - 1) - onCouple);
-
                 Individu individuL = generasi.get(FirstCouple);
                 Individu individuP = generasi.get(secondCouple);
                 int posisi1 = rasgele.nextInt(CONSTANT.CHROMOSOME_LEN);
                 int posisi2 = rasgele.nextInt(CONSTANT.CHROMOSOME_LEN);
-                if (posisi2 > posisi1) {
+                if (posisi2 < posisi1) {
                     posisi1 += posisi2;
                     posisi2 = posisi1 - posisi2;
                     posisi1 -= posisi2;
@@ -230,44 +229,46 @@ public class GA {
                     offspring.add(anak1);
                     offspring.add(anak2);
                 }
-                /* Getting the old individu */
-                for (int currOld = individuCandidate; currOld < population; ++currOld) {
-                    offspring.add(generasi.get(currOld));
-                }
-                /* Kill old generation */
-                generasi.clear();
-                /* let the young rules the world */
-                for (int young = 0; young < population; ++young) {
-                    generasi.add(offspring.get(young));
-                }
-                /* Kill the old babies */
-                offspring.clear();
+            }
+            
+            /* Getting the old individu */
+            for (int currOld = individuCandidate-1; currOld < population; ++currOld) {
+                offspring.add(generasi.get(currOld));
+            }
+            /* Kill old generation */
+            generasi.clear();
+            /* let the young rules the world */
+            population = offspring.size();
+            for (int young = 0; young < population; ++young) {
+                generasi.add(offspring.get(young));
+            }
+            /* Kill the old babies */
+            offspring.clear();
 
-                /* Mutation */
-                int numbMutant = (int) (CONSTANT.MUTATION_RATE * population);
-                for (int iterMutant = 0; iterMutant < numbMutant; ++iterMutant) {
-                    /*Select the Target*/
-                    int target = rasgele.nextInt(population);
-                    /*Iterasi tiap bit pada target, jika random < probabiliti, mutasi bit*/
-                    for (int posisi = 0; posisi < CONSTANT.CHROMOSOME_LEN; ++posisi) {
-                        if (Math.random() <= CONSTANT.MUTATION_PROB) {
-                            generasi.get(target).flip(posisi);
-                        }
+            /* Mutation */
+            int numbMutant = (int) (CONSTANT.MUTATION_RATE * population);
+            for (int iterMutant = 0; iterMutant < numbMutant; ++iterMutant) {
+                /*Select the Target*/
+                int target = rasgele.nextInt(population);
+                /*Iterasi tiap bit pada target, jika random < probabiliti, mutasi bit*/
+                for (int posisi = 0; posisi < CONSTANT.CHROMOSOME_LEN; ++posisi) {
+                    if (Math.random() <= CONSTANT.MUTATION_PROB) {
+                        generasi.get(target).flip(posisi);
                     }
                 }
-                generationCounter = generationCounter + 1;
-                /* update fitness function*/
-                for (int interIndividu = 0; interIndividu < population; ++interIndividu) {
-                    generasi.get(interIndividu).updateFitnessIndividu(training);
-                }
-                /* Temination state */
-                if (generationCounter >= CONSTANT.MAX_GENERATION) {
-                    doSecondStage = false;
-                }
-                /* Other termination state */
-                if (fitnessPopulation() / training.size() >= CONSTANT.DESIRED_ACCURATION) {
-                    doSecondStage = false;
-                }
+            }
+            generationCounter = generationCounter + 1;
+            /* update fitness function*/
+            for (int interIndividu = 0; interIndividu < population; ++interIndividu) {
+                generasi.get(interIndividu).updateFitnessIndividu(training);
+            }
+            /* Temination state */
+            if (generationCounter >= CONSTANT.MAX_GENERATION) {
+                doSecondStage = false;
+            }
+            /* Other termination state */
+            if (fitnessPopulation() / training.size() >= CONSTANT.DESIRED_ACCURATION) {
+                doSecondStage = false;
             }
         }
 
@@ -276,7 +277,9 @@ public class GA {
     public void doGA() {
         /* don't have planning to do GA */
         firstStage();
+        System.out.println("Finised First Stage");
         secondStage();
+        System.out.println("Finised Second Stage");
         /* Clear container */
         rules.clear();
         /* Fill Container */
@@ -287,10 +290,6 @@ public class GA {
     }
 
     void saveToCLP(String clp_loc) {
-
-        //mengisi rules dengan dummy
-        rules = training;
-
         //Menulis CLP
         try {
             File f = new File(clp_loc);
@@ -373,8 +372,10 @@ public class GA {
         GA putri = new GA();
         putri.bacaTraining("D:\\Grade 4\\Semester 1\\SBP\\Tugas\\Mushrom\\agaricus-lepiota.data");
         putri.doGA();
-        for(int i=0;i<putri.rules.size();++i){
+        for (int i = 0; i < putri.rules.size(); ++i) {
             putri.rules.get(i).print();
         }
+        putri.saveToCLP("rule.clp");
+        System.out.println("selesai......");
     }
 }
