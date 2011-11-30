@@ -310,8 +310,8 @@ public class GA {
                         code=0;
                         //ekstrak sebuah atribut
                         for (int bit = Individu.attributes.get(a).iAkhir; bit >= Individu.attributes.get(a).iAwal; --bit) {
-                            if(rules.get(i).get(bit)) code+=1;
                             code = code << 1;
+                            if(rules.get(i).get(bit)) code+=1;
                         }
                         /*if(code<Individu.attributes.get(i).pilihan.length())*/simpan.println("   ("+Individu.attributes.get(a).nama +" "+ code + ")");
                     }

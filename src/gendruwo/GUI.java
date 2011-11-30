@@ -13,6 +13,7 @@ package gendruwo;
 
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -29,7 +30,6 @@ public class GUI extends javax.swing.JFrame {
             System.out.println(ex);
         }
         initComponents();
-        ga = new GA();
     }
 
     /** This method is called from within the constructor to
@@ -84,8 +84,8 @@ public class GUI extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        veil_type_c1 = new javax.swing.JComboBox();
-        veil_color_c1 = new javax.swing.JComboBox();
+        ring_number_c = new javax.swing.JComboBox();
+        ring_type_c = new javax.swing.JComboBox();
         jPanel7 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         population_c = new javax.swing.JComboBox();
@@ -101,7 +101,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        gill_attachment_c1 = new javax.swing.JComboBox();
+        stalk_shape_c = new javax.swing.JComboBox();
         stalk_root_c = new javax.swing.JComboBox();
         stalk_surface_above_ring_c = new javax.swing.JComboBox();
         jLabel27 = new javax.swing.JLabel();
@@ -110,7 +110,7 @@ public class GUI extends javax.swing.JFrame {
         stalk_color_above_ring_c = new javax.swing.JComboBox();
         jLabel29 = new javax.swing.JLabel();
         stalk_color_below_ring_c = new javax.swing.JComboBox();
-        jButton3 = new javax.swing.JButton();
+        check_btn = new javax.swing.JButton();
         jLabel31 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -421,9 +421,9 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel18.setText("Type");
 
-        veil_type_c1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "none", "one", "two" }));
+        ring_number_c.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "none", "one", "two" }));
 
-        veil_color_c1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "cobwebby", "evanescent", "flaring", "large", "none", "pendant", "sheathing", "zone" }));
+        ring_type_c.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "cobwebby", "evanescent", "flaring", "large", "none", "pendant", "sheathing", "zone" }));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -438,8 +438,8 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(veil_type_c1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(veil_color_c1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(ring_number_c, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ring_type_c, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel16))
                 .addContainerGap())
         );
@@ -451,11 +451,11 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(veil_type_c1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ring_number_c, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(veil_color_c1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ring_type_c, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -561,7 +561,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel26.setText("Surface Above Ring");
 
-        gill_attachment_c1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "bell", "conical", "convex", "flat", "knobbed", "sunken" }));
+        stalk_shape_c.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "bell", "conical", "convex", "flat", "knobbed", "sunken" }));
 
         stalk_root_c.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "fibrous", "grooves", "scaly", "smooth" }));
 
@@ -604,7 +604,7 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(stalk_root_c, 0, 144, Short.MAX_VALUE)
                             .addComponent(stalk_surface_below_ring_c, 0, 144, Short.MAX_VALUE)
                             .addComponent(stalk_surface_above_ring_c, 0, 144, Short.MAX_VALUE)
-                            .addComponent(gill_attachment_c1, 0, 144, Short.MAX_VALUE))))
+                            .addComponent(stalk_shape_c, 0, 144, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
@@ -616,7 +616,7 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel24))
-                    .addComponent(gill_attachment_c1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(stalk_shape_c, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -642,9 +642,14 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton3.setFont(new java.awt.Font("Arial Black", 0, 24));
-        jButton3.setForeground(new java.awt.Color(0, 102, 102));
-        jButton3.setText("Check Edibility!!");
+        check_btn.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
+        check_btn.setForeground(new java.awt.Color(0, 102, 102));
+        check_btn.setText("Check Edibility!!");
+        check_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                check_btnMouseReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout test_panelLayout = new javax.swing.GroupLayout(test_panel);
         test_panel.setLayout(test_panelLayout);
@@ -653,7 +658,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(test_panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(test_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(check_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(input_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -700,7 +705,7 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(test_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                            .addComponent(check_btn, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(755, 755, 755))
         );
@@ -739,6 +744,13 @@ public class GUI extends javax.swing.JFrame {
         ga.saveToCLP("mushroom.clp");
     }//GEN-LAST:event_generate_btnMouseReleased
 
+    private void check_btnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_check_btnMouseReleased
+        // TODO add your handling code here:
+        System.out.println(generateFacts());
+        JM.executeRules(generateFacts());
+        JOptionPane.showMessageDialog(null, JM.getOutput(), "Hasil", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_check_btnMouseReleased
+
     /**
     * @param args the command line arguments
     */
@@ -756,15 +768,14 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JComboBox cap_color_c;
     private javax.swing.JComboBox cap_shape_c;
     private javax.swing.JComboBox cap_surface_c;
+    private javax.swing.JButton check_btn;
     private javax.swing.JButton generate_btn;
     private javax.swing.JComboBox gill_attachment_c;
-    private javax.swing.JComboBox gill_attachment_c1;
     private javax.swing.JComboBox gill_color_c;
     private javax.swing.JComboBox gill_size_c;
     private javax.swing.JComboBox gill_spacing_c;
     private javax.swing.JComboBox habitat_c;
     private javax.swing.JPanel input_panel;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -809,20 +820,49 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JComboBox odor_c;
     private javax.swing.JComboBox population_c;
+    private javax.swing.JComboBox ring_number_c;
+    private javax.swing.JComboBox ring_type_c;
     private javax.swing.JComboBox spore_print_color_c;
     private javax.swing.JComboBox stalk_color_above_ring_c;
     private javax.swing.JComboBox stalk_color_below_ring_c;
     private javax.swing.JComboBox stalk_root_c;
+    private javax.swing.JComboBox stalk_shape_c;
     private javax.swing.JComboBox stalk_surface_above_ring_c;
     private javax.swing.JComboBox stalk_surface_below_ring_c;
     private javax.swing.JPanel test_panel;
     private javax.swing.JTextField training_loc;
     private javax.swing.JPanel training_panel;
     private javax.swing.JComboBox veil_color_c;
-    private javax.swing.JComboBox veil_color_c1;
     private javax.swing.JComboBox veil_type_c;
-    private javax.swing.JComboBox veil_type_c1;
     // End of variables declaration//GEN-END:variables
 
-    private GA ga;
+    private GA ga = new GA();
+    private JessManager JM = new JessManager();
+
+    String generateFacts() {
+        String facts = "";
+        facts += "(cap-shape "+cap_shape_c.getSelectedIndex()+") ";
+        facts += "(cap-surface "+cap_surface_c.getSelectedIndex()+") ";
+        facts += "(cap-color "+cap_color_c.getSelectedIndex()+") ";
+        facts += "(bruises "+bruises_c.getSelectedIndex()+") ";
+        facts += "(odor "+odor_c.getSelectedIndex()+") ";
+        facts += "(gill-attachment "+gill_attachment_c.getSelectedIndex()+") ";
+        facts += "(gill-spacing "+gill_spacing_c.getSelectedIndex()+") ";
+        facts += "(gill-size "+gill_size_c.getSelectedIndex()+") ";
+        facts += "(gill-color "+gill_color_c.getSelectedIndex()+") ";
+        facts += "(stalk-shape "+stalk_shape_c.getSelectedIndex()+") ";
+        facts += "(stalk-root "+stalk_root_c.getSelectedIndex()+") ";
+        facts += "(stalk-surface-above-ring "+stalk_surface_above_ring_c.getSelectedIndex()+") ";
+        facts += "(stalk-surface-below-ring "+stalk_surface_below_ring_c.getSelectedIndex()+") ";
+        facts += "(stalk-color-above-ring "+stalk_color_above_ring_c.getSelectedIndex()+") ";
+        facts += "(stalk-color-below-ring "+stalk_color_below_ring_c.getSelectedIndex()+") ";
+        facts += "(veil-type "+veil_type_c.getSelectedIndex()+") ";
+        facts += "(veil-color "+veil_color_c.getSelectedIndex()+") ";
+        facts += "(ring-number "+ring_number_c.getSelectedIndex()+") ";
+        facts += "(ring-type "+ring_type_c.getSelectedIndex()+") ";
+        facts += "(spore-print-color "+spore_print_color_c.getSelectedIndex()+") ";
+        facts += "(population "+population_c.getSelectedIndex()+") ";
+        facts += "(habitat "+habitat_c.getSelectedIndex()+") ";
+        return facts;
+    }
 }
