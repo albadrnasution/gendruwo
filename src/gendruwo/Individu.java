@@ -17,6 +17,7 @@ import java.util.List;
 public class Individu extends BitSet implements Comparable {
     
     int fitnessValue = 0;
+    boolean isMarriage = false;
     Individu(){
 
     }

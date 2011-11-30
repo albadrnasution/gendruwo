@@ -86,7 +86,7 @@ public class GA {
         boolean doFristStage = true;
         int numgenerasi = 0;
         while (doFristStage) {
-            System.out.println("Generasi ke:"+numgenerasi++);
+            System.out.println("Generasi ke:" + numgenerasi++);
             /*Selection and Crossover*/
             float marriagePercentation = fsRand.nextFloat(CONSTANT.COVER_COUPLE_MIN, CONSTANT.COVER_COUPLE_MAX);
             int marriageCouple = (int) (marriagePercentation * currentPopulation);
@@ -162,7 +162,7 @@ public class GA {
         float rationCouple = 0; /* ratio Couple */
         int generationCounter = 0; /* number of generation */
         while (doSecondStage) {
-            System.out.println("Generasi ke:"+generationCounter);
+            System.out.println("Generasi ke:" + generationCounter);
             /* Sort population based on fitness function*/
             Collections.sort(generasi);
             /* get total being crossovered individu */
@@ -175,39 +175,66 @@ public class GA {
             }
             /* Let's have with roulette */
             float[] roulette = new float[individuCandidate];
-            for (int interRoulet = 0; interRoulet < individuCandidate; ++interRoulet) {
-                roulette[interRoulet] = totalFitness ==0 ? 1: generasi.get(interRoulet).getFitnessValue() / totalFitness;
+            if (totalFitness != 0) {
+                for (int interRoulet = 0; interRoulet < individuCandidate; ++interRoulet) {
+                    roulette[interRoulet] = generasi.get(interRoulet).getFitnessValue() / totalFitness;
+                }
             }
-            
+
             /* do crossover */
             for (int onCouple = 0; onCouple < individuCandidate / 2; ++onCouple) {
                 /* Let's find the individu candidates */
                 boolean foundCandidate = false;
                 int FirstCouple = 0;
                 int secondCouple = 0;
-                while (!foundCandidate) {
-                    float candidate = rasgele.nextFloat();
-                    /* selecting the proposal for being a couple */
-                    for (int y = 0; y < roulette.length; ++y) {
-                        if (candidate < roulette[y]) {
+                if (totalFitness != 0) {
+                    /* if have roulette */
+                    while (!foundCandidate) {
+                        float candidate = rasgele.nextFloat();
+                        /* selecting the proposal for being a couple */
+                        for (int y = 0; y < roulette.length; ++y) {
+                            if (candidate < roulette[y]) {
+                                foundCandidate = true;
+                                FirstCouple = y;
+                                roulette[y] = 0;
+                            }
+                        }
+                    }
+                    foundCandidate = false;
+                    while (!foundCandidate) {
+                        float candidate = rasgele.nextFloat();
+                        /* selecting the proposal for being a couple */
+                        for (int y = 0; y < roulette.length; ++y) {
+                            if (candidate < roulette[y]) {
+                                foundCandidate = true;
+                                secondCouple = y;
+                                roulette[y] = 0;
+                            }
+                        }
+                    }
+                } else {
+                    foundCandidate = false;
+                    while (!foundCandidate) {
+                        int candidate = rasgele.nextInt(population);
+                        /* selecting the proposal for being a couple */
+                        if (!generasi.get(candidate).isMarriage) {
                             foundCandidate = true;
-                            FirstCouple = y;
-                            roulette[y] = 0;
+                            FirstCouple = candidate;
+                            generasi.get(candidate).isMarriage = true;
+                        }
+                    }
+                    foundCandidate = false;
+                    while (!foundCandidate) {
+                        int candidate = rasgele.nextInt(population);
+                        /* selecting the proposal for being a couple */
+                        if (!generasi.get(candidate).isMarriage) {
+                            foundCandidate = true;
+                            secondCouple = candidate;
+                            generasi.get(candidate).isMarriage = true;
                         }
                     }
                 }
-                foundCandidate = false;
-                while (!foundCandidate) {
-                    float candidate = rasgele.nextFloat();
-                    /* selecting the proposal for being a couple */
-                    for (int y = 0; y < roulette.length; ++y) {
-                        if (candidate < roulette[y]) {
-                            foundCandidate = true;
-                            secondCouple = y;
-                            roulette[y] = 0;
-                        }
-                    }
-                }
+
                 /* if you want to match the good one with the bad one */
 //                Individu individuL = generasi.get(onCouple);
 //                Individu individuP = generasi.get((individuCandidate - 1) - onCouple);
@@ -230,9 +257,9 @@ public class GA {
                     offspring.add(anak2);
                 }
             }
-            
+
             /* Getting the old individu */
-            for (int currOld = individuCandidate-1; currOld < population; ++currOld) {
+            for (int currOld = individuCandidate - 1; currOld < population; ++currOld) {
                 offspring.add(generasi.get(currOld));
             }
             /* Kill old generation */
@@ -240,6 +267,7 @@ public class GA {
             /* let the young rules the world */
             population = offspring.size();
             for (int young = 0; young < population; ++young) {
+                offspring.get(young).isMarriage = false;
                 generasi.add(offspring.get(young));
             }
             /* Kill the old babies */
@@ -266,12 +294,12 @@ public class GA {
             float accuracy = fitnessPopulation() / training.size();
             if (accuracy >= CONSTANT.DESIRED_ACCURATION) {
                 doSecondStage = false;
-                System.out.println("Congratulation, you reach accuracy "+accuracy);
+                System.out.println("Congratulation, you reach accuracy " + accuracy);
             }
             /* Temination state */
             if (generationCounter >= CONSTANT.MAX_GENERATION) {
                 doSecondStage = false;
-                System.out.println("MAX GENERATION REACHED, accuracy "+accuracy);
+                System.out.println("MAX GENERATION REACHED, accuracy " + accuracy);
             }
         }
 
@@ -312,21 +340,24 @@ public class GA {
                     //ambil nilai semua atribut yang tidak don't care sebagai LHS
                     int code;
                     for (int a = 1; a < Individu.attributes.size(); ++a) {
-                        code=0;
+                        code = 0;
                         //ekstrak sebuah atribut
                         for (int bit = Individu.attributes.get(a).iAkhir; bit >= Individu.attributes.get(a).iAwal; --bit) {
                             code = code << 1;
-                            if(rules.get(i).get(bit)) code+=1;
+                            if (rules.get(i).get(bit)) {
+                                code += 1;
+                            }
                         }
-                        /*if(code<Individu.attributes.get(i).pilihan.length())*/simpan.println("   ("+Individu.attributes.get(a).nama +" "+ code + ")");
+                        /*if(code<Individu.attributes.get(i).pilihan.length())*/ simpan.println("   (" + Individu.attributes.get(a).nama + " " + code + ")");
                     }
                     simpan.println("   =>");
                     //atribut ke-0 adalah kelas, menjadi RHS
-                    if(rules.get(i).get(0)) {
-                        simpan.println("   (assert ("+Individu.attributes.get(0).nama +"  poisonous))");
-                    }
-                    else {
-                        simpan.println("   (assert ("+Individu.attributes.get(0).nama +"  edible))");
+                    if (rules.get(i).get(0)) {
+                        simpan.println("   (" + Individu.attributes.get(0).nama + "  poisonous)");
+                        simpan.println("   (printout t \"poisonous\" crlf)");
+                    } else {
+                        simpan.println("   (" + Individu.attributes.get(0).nama + "  edible)");
+                        simpan.println("   (printout t \"edible\" crlf)");
                     }
 
                     //memberi mark bahwa solusi sudah ditemukan
@@ -341,7 +372,7 @@ public class GA {
                 simpan.println("   (assert (edibility poisonous))");
                 simpan.println("   (assert (solution found))\n)");
 
-                                //fungsi untuk menampilkan hasil
+                //fungsi untuk menampilkan hasil
 
                 simpan.println("(defrule poisonous");
                 simpan.println("   (solution found)");
@@ -390,7 +421,7 @@ public class GA {
 //        }
         /* Trying to GA */
         GA putri = new GA();
-        putri.bacaTraining("agaricus-lepiota-varis.data");
+        putri.bacaTraining("leona.data");
         putri.doGA();
         for (int i = 0; i < putri.rules.size(); ++i) {
             putri.rules.get(i).print();
