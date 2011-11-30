@@ -30,15 +30,16 @@ public class GA {
     }
     
     public void firstStage(){
-        Random fsRand = new Random();
+        RandomGendruwo fsRand = new RandomGendruwo();
         int initialPopulation = generasi.size();
         boolean doFristStage = true;
         
         while (doFristStage){
             int currentPopulation = generasi.size();
             /*Selection and Crossover*/
-            int marriagePercentation = fsRand.nextInt();
-            for (int marr=0;marr<marriagePercentation;marr++){
+            float marriagePercentation = fsRand.nextFloat(CONSTANT.COVER_COUPLE_MIN, CONSTANT.COVER_COUPLE_MAX);
+            int marriageCouple = (int) (marriagePercentation * currentPopulation); 
+            for (int marr=0;marr<marriageCouple;marr++){
                 int bridge = fsRand.nextInt(currentPopulation);
                 int broom = fsRand.nextInt(currentPopulation);
                 int posisi1 = fsRand.nextInt(CONSTANT.CHROMOSOME_LEN);
