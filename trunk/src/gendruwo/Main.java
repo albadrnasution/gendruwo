@@ -7,7 +7,7 @@ package gendruwo;
 
 /**
  *
- * @author User
+ * @author Hendra
  */
 public class Main {
 

@@ -10,9 +10,18 @@ import java.util.ArrayList;
 
 /**
  *
- * @author User
+ * @author Hendra
  */
 public class Individu extends BitSet {
+    
+    
+    /**
+     * Membandingkan dua individu kromosom.
+     * Sama jika ???????????
+     * @param individu
+     * @param att
+     * @return 
+     */
     public boolean compare(Individu individu, ArrayList<Attribute> att){
         for(int i=0; i<att.size(); ++i){
             int part1Int = att.get(i).getPartInt(this);
@@ -23,7 +32,13 @@ public class Individu extends BitSet {
         }
         return false;
     }
-
+    
+    /**
+     * Mengeset bit dari pasangan ke bit dalam individu, dari bit index awal ke indeex akhir.
+     * @param pasangan
+     * @param awal
+     * @param akhir 
+     */
     public void set(Individu pasangan, int awal, int akhir){
         for(int i=awal; i<=akhir; ++i)
             this.set(i,pasangan.get(i));

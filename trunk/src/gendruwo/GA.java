@@ -10,7 +10,7 @@ import java.util.Random;
 
 /**
  *
- * @author User
+ * @author Hendra, Albadr, Sidik
  */
 public class GA {
     ArrayList<Attribute> att = new ArrayList<Attribute>();

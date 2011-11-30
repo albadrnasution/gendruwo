@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  *
- * @author User
+ * @author Hendra
  */
 public class Attribute {
     String nama;
