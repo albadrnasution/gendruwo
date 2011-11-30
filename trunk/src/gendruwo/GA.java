@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.io.*;
-import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -19,8 +18,6 @@ import java.util.logging.Logger;
  * @author Hendra, Albadr, Sidik
  */
 public class GA {
-
-    ArrayList<Attribute> att = new ArrayList<Attribute>();
 
     final ArrayList<Individu> training = new ArrayList<Individu>();
     ArrayList<Individu> generasi = new ArrayList<Individu>();
@@ -54,32 +51,34 @@ public class GA {
             // repeat until all lines is read
             reader = new BufferedReader(new FileReader(file));
             int pointer = 0, code;
-            String att;
+            String att= new String();
             while ((data = reader.readLine()) != null) {
                 //parsing sebuah baris menjadi sebuah data training
                 Individu baru = new Individu(69);
-                pointer=0;
+                pointer = 0;
                 for (int i = 0; i < Individu.attributes.size(); ++i) {
                     att = data.charAt(pointer) + "";
                     //System.out.println(i+" -> "+att);
                     code = mapper.get(i).get(att);
                     for (int bit = Individu.attributes.get(i).iAwal; bit <= Individu.attributes.get(i).iAkhir; ++bit) {
                         //mengisi individu
-                        if (code%2 == 0) {
+                        if (code % 2 == 0) {
                             baru.set(bit, false);
-                        }else baru.set(bit, true);
+                        } else {
+                            baru.set(bit, true);
+                        }
                         code = code >> 1;
                     }
                     pointer += 2;
                 }
                 training.add(baru);
-                baru.print(); System.out.println();
+                baru.print();
+                System.out.println();
             }
         } catch (IOException ex) {
             Logger.getLogger(GA.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 
     public void firstStage() {
         RandomGendruwo fsRand = new RandomGendruwo();
@@ -289,6 +288,7 @@ public class GA {
 
     void saveToCLP() {
     }
+
     /**
      * fitness ini buat menghitung kecocokan populasi dalam menyampuli data yang ada
      * @return 
