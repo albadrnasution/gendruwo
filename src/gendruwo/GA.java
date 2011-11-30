@@ -32,10 +32,10 @@ public class GA {
     public void firstStage(){
         RandomGendruwo fsRand = new RandomGendruwo();
         int initialPopulation = generasi.size();
+        int currentPopulation = generasi.size();
         boolean doFristStage = true;
         
         while (doFristStage){
-            int currentPopulation = generasi.size();
             /*Selection and Crossover*/
             float marriagePercentation = fsRand.nextFloat(CONSTANT.COVER_COUPLE_MIN, CONSTANT.COVER_COUPLE_MAX);
             int marriageCouple = (int) (marriagePercentation * currentPopulation); 
@@ -76,7 +76,7 @@ public class GA {
             int desiredPopulation = (int) ((1-CONSTANT.DECAY_POP_RATE)*currentPopulation);
             for (int des=0;des<desiredPopulation;++des)
                 generasi.add(offspring.get(des));
-            offspring.clear();
+            offspring.clear();  /*Kill them all, the temporary offspring*/
             currentPopulation = desiredPopulation;
             
             /*Mutation*/
