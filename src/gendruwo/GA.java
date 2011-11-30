@@ -16,6 +16,7 @@ public class GA {
     ArrayList<Attribute> att = new ArrayList<Attribute>();
     final ArrayList<Individu> training = new ArrayList<Individu>();
     ArrayList<Individu> generasi = new ArrayList<Individu>();
+    ArrayList<Individu> offspring = new ArrayList<Individu>();
 
     ArrayList<Individu> rules = new ArrayList<Individu>();
 
@@ -36,15 +37,42 @@ public class GA {
             int currentPopulation = generasi.size();
             /*Fitness Calculation*/
             
-            /*Sort by fitness value*/
             
             /*Selection and Crossover*/
+            int marriagePercentation = fsRand.nextInt();
+            for (int marr=0;marr<marriagePercentation;marr++){
+                int bridge = fsRand.nextInt(currentPopulation);
+                int broom = fsRand.nextInt(currentPopulation);
+                int posisi1 = fsRand.nextInt(CONSTANT.CHROMOSOME_LEN);
+                int posisi2 = fsRand.nextInt(CONSTANT.CHROMOSOME_LEN);
+                if(posisi2>posisi1){
+                    posisi1 += posisi2;
+                    posisi2 = posisi1-posisi2;
+                    posisi1 -= posisi2;
+                }
+                if(posisi1<posisi2){
+                    Individu anak1 = (Individu) generasi.get(broom).clone();
+                    anak1.set(generasi.get(bridge), posisi1, posisi2); //anak1: pinggiran ibu, tengah bapak
+                    Individu anak2 = (Individu) generasi.get(bridge).clone();
+                    anak2.set(generasi.get(broom), posisi1,posisi2); //anak2: pinggiran bapak, tengah ibu
+                    /*update generasi*/
+                    offspring.add(anak1);
+                    offspring.add(anak2);
+                }
+            }
             
-            /*Massacre*/
-            int desiredPopulation = (int) ((1-CONSTANT.DECAY_POP_RATE)*currentPopulation);
+            /*Sort next generation by fitness value*/
+//             Collections.sort(offspring);
+            
+            /*Massacre parent (old generation)*/
             generasi.clear();
-            
-            
+            /*and prepare the chosen one (the best 99,2%parent population) 
+             *for next generation
+             */
+            int desiredPopulation = (int) ((1-CONSTANT.DECAY_POP_RATE)*currentPopulation);
+            for (int des=0;des<desiredPopulation;++des)
+                generasi.add(offspring.get(des));
+            offspring.clear();
             currentPopulation = desiredPopulation;
             
             /*Mutation*/
@@ -65,6 +93,17 @@ public class GA {
             }
         }
         
+    }
+    
+    public int fitnessIndividu(Individu kromosom){
+        int nilai=0;
+        
+        for (Individu train : this.training){
+            if (kromosom.compare(train,att))
+                nilai++;
+        }
+        
+        return nilai;
     }
 
     
