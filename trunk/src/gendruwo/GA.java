@@ -294,6 +294,7 @@ public class GA {
 
     void saveToCLP(String clp_loc) {
         //Menulis CLP
+        //rules = training;
         try {
             File f = new File(clp_loc);
             if (!f.exists()) {
@@ -307,6 +308,7 @@ public class GA {
 
                 for (int i = 0; i < rules.size(); ++i) {
                     simpan.println("(defrule rule" + i);
+                    simpan.println("   (not (solution found))");
                     //ambil nilai semua atribut yang tidak don't care sebagai LHS
                     int code;
                     for (int a = 1; a < Individu.attributes.size(); ++a) {
@@ -321,23 +323,38 @@ public class GA {
                     simpan.println("   =>");
                     //atribut ke-0 adalah kelas, menjadi RHS
                     if(rules.get(i).get(0)) {
-                        simpan.println("   ("+Individu.attributes.get(0).nama +"  poisonous)");
-                        simpan.println("   (printout t \"poisonous\" crlf)");
+                        simpan.println("   (assert ("+Individu.attributes.get(0).nama +"  poisonous))");
                     }
                     else {
-                        simpan.println("   ("+Individu.attributes.get(0).nama +"  edible)");
-                        simpan.println("   (printout t \"edible\" crlf)");
+                        simpan.println("   (assert ("+Individu.attributes.get(0).nama +"  edible))");
                     }
 
                     //memberi mark bahwa solusi sudah ditemukan
-                    simpan.println("   (solution found)\n)");
+                    simpan.println("   (assert (solution found))\n)");
                     simpan.println();
                 }
+
                 //membuat rule default
                 simpan.println("(defrule default");
                 simpan.println("   (not (solution found))");
                 simpan.println("   =>");
-                simpan.println("   (printout t \"poisonous\" crlf)");
+                simpan.println("   (assert (edibility poisonous))");
+                simpan.println("   (assert (solution found))\n)");
+
+                                //fungsi untuk menampilkan hasil
+
+                simpan.println("(defrule poisonous");
+                simpan.println("   (solution found)");
+                simpan.println("   (edibility poisonous)");
+                simpan.println("   =>");
+                simpan.println("   (printout t \"p\" crlf)");
+                simpan.println(")");
+                simpan.println();
+                simpan.println("(defrule edible");
+                simpan.println("   (solution found)");
+                simpan.println("   (edibility edible)");
+                simpan.println("   =>");
+                simpan.println("   (printout t \"e\" crlf)");
                 simpan.println(")");
 
                 simpan.close();
