@@ -6,6 +6,7 @@
 package gendruwo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -35,9 +36,6 @@ public class GA {
         
         while (doFristStage){
             int currentPopulation = generasi.size();
-            /*Fitness Calculation*/
-            
-            
             /*Selection and Crossover*/
             int marriagePercentation = fsRand.nextInt();
             for (int marr=0;marr<marriagePercentation;marr++){
@@ -61,13 +59,18 @@ public class GA {
                 }
             }
             
-            /*Sort next generation by fitness value*/
-//             Collections.sort(offspring);
+            /*Fitness Calculation*/
+            int offspringSize = offspring.size();
+            for (int idxOff = 0; idxOff < offspringSize; ++idxOff)
+                offspring.get(idxOff).updateFitnessIndividu(training);
             
-            /*Massacre parent (old generation)*/
+            /*Sort next generation by fitness value*/
+            Collections.sort(offspring);
+            
+            /*Massacre parents (old generation)*/
             generasi.clear();
             /*and prepare the chosen one (the best 99,2%parent population) 
-             *for next generation
+             *for next generation, kill the rest too.
              */
             int desiredPopulation = (int) ((1-CONSTANT.DECAY_POP_RATE)*currentPopulation);
             for (int des=0;des<desiredPopulation;++des)
@@ -95,16 +98,6 @@ public class GA {
         
     }
     
-    public int fitnessIndividu(Individu kromosom){
-        int nilai=0;
-        
-        for (Individu train : this.training){
-            if (kromosom.compare(train,att))
-                nilai++;
-        }
-        
-        return nilai;
-    }
 
     
     public void secondStage(){
