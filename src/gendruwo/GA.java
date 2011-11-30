@@ -103,13 +103,13 @@ public class GA {
      * Do second stage, no i meant second stage!!!
      */
     public void secondStage() {
-        //random engine
+        /* random engine */
         Random rasgele = new Random();
-        boolean doSecondStage = true;
-        int population = generasi.size();
-        int coupleCandidate = 0;
-        float rationCouple = 0;
-        int generationCounter = 0;
+        boolean doSecondStage = true; /* order second stage */
+        int population = generasi.size(); /* number of population */
+        int individuCandidate = 0; /*candidate Couple */
+        float rationCouple = 0; /* ratio Couple */
+        int generationCounter = 0; /* number of generation */
         while (doSecondStage) {
             /* Sort population based on fitness function*/
             Collections.sort(generasi);
@@ -117,11 +117,53 @@ public class GA {
             while (rationCouple < CONSTANT.COVER_RATE_MAX || rationCouple > CONSTANT.COVER_RATE_MIN) {
                 rationCouple = rasgele.nextFloat();
             }
-            coupleCandidate = (int) (rationCouple * population);
+            individuCandidate = (int) (rationCouple * population);
+            /* Sum total fitness function from whole generation */
+            int totalFitness = 0;
+            for (int interRoulet = 0; interRoulet < population; ++interRoulet) {
+                totalFitness = totalFitness + generasi.get(interRoulet).getFitnessValue();
+            }
+            /* Let's have with roulette */
+            float[] roulette = new float[individuCandidate];
+            for (int interRoulet = 0; interRoulet < individuCandidate; ++interRoulet) {
+                roulette[interRoulet] = generasi.get(interRoulet).getFitnessValue() / totalFitness;
+            }
             /* do crossover */
-            for (int onCouple = 0; onCouple < coupleCandidate / 2; ++onCouple) {
-                Individu individuL = generasi.get(onCouple);
-                Individu individuP = generasi.get((coupleCandidate - 1) - onCouple);
+            for (int onCouple = 0; onCouple < individuCandidate / 2; ++onCouple) {
+                
+                /* Let's find the individu candidates */
+                boolean foundCandidate = false;
+                int FirstCouple = 0;
+                int secondCouple = 0;
+                while (!foundCandidate) {
+                    float candidate = rasgele.nextFloat();
+                    /* selecting the proposal for being a couple */
+                    for (int y = 0; y < roulette.length; ++y) {
+                        if (candidate < roulette[y]) {
+                            foundCandidate = true;
+                            FirstCouple = y;
+                            roulette[y] = 0;
+                        }
+                    }
+                }
+                foundCandidate = false;
+                while (!foundCandidate) {
+                    float candidate = rasgele.nextFloat();
+                    /* selecting the proposal for being a couple */
+                    for (int y = 0; y < roulette.length; ++y) {
+                        if (candidate < roulette[y]) {
+                            foundCandidate = true;
+                            secondCouple = y;
+                            roulette[y] = 0;
+                        }
+                    }
+                }
+                /* if you want to match the good one with the bad one */
+//                Individu individuL = generasi.get(onCouple);
+//                Individu individuP = generasi.get((individuCandidate - 1) - onCouple);
+                
+                Individu individuL = generasi.get(FirstCouple);
+                Individu individuP = generasi.get(secondCouple);
                 int posisi1 = rasgele.nextInt(CONSTANT.CHROMOSOME_LEN);
                 int posisi2 = rasgele.nextInt(CONSTANT.CHROMOSOME_LEN);
                 if (posisi2 > posisi1) {
@@ -139,7 +181,7 @@ public class GA {
                     offspring.add(anak2);
                 }
                 /* Getting the old individu */
-                for (int currOld = coupleCandidate; currOld < population; ++currOld) {
+                for (int currOld = individuCandidate; currOld < population; ++currOld) {
                     offspring.add(generasi.get(currOld));
                 }
                 /* Kill old generation */
@@ -165,7 +207,7 @@ public class GA {
                 }
                 generationCounter = generationCounter + 1;
                 /* update fitness function*/
-                for(int interIndividu=0 ;interIndividu<population;++interIndividu){
+                for (int interIndividu = 0; interIndividu < population; ++interIndividu) {
                     generasi.get(interIndividu).updateFitnessIndividu(training);
                 }
                 /* Temination state */
@@ -173,7 +215,7 @@ public class GA {
                     doSecondStage = false;
                 }
                 /* Other termination state */
-                if(fitnessPopulation()/training.size()>=CONSTANT.DESIRED_ACCURATION){
+                if (fitnessPopulation() / training.size() >= CONSTANT.DESIRED_ACCURATION) {
                     doSecondStage = false;
                 }
             }
@@ -182,68 +224,15 @@ public class GA {
     }
 
     public void doGA() {
-        //melakukan serangkaian genetic algorithm hingga seleksi
-        //definisi presentase --> breeding : mutasi = 15:1
-        generasi = (ArrayList<Individu>) training.clone();
-        Random rn15 = new Random(15);
-        int todo;
-        int loop = generasi.size() / 10;
-        for (int gen = 0; gen < loop; ++gen) {
-            todo = rn15.nextInt();
-            if (todo > 0) {
-                beranak();
-            } else {
-                mutasi();
-            }
+        /* don't have planning to do GA */
+        firstStage();
+        secondStage();
+        /* Clear container */
+        rules.clear();
+        /* Fill Container */
+        for (int iterCopier = 0; iterCopier < generasi.size(); ++iterCopier) {
+            rules.add(generasi.get(iterCopier));
         }
-        //seleksi();
-    }
-
-    private void mutasi() {
-        Random rn = new Random(generasi.size() - 1);
-        Random rnPos = new Random(68);
-        int mutan, posisi;
-        int loop = generasi.size() / 20;
-        for (int i = 0; i < loop; ++i) {
-            mutan = rn.nextInt();
-            posisi = rnPos.nextInt();
-            generasi.get(mutan).flip(posisi);
-        }
-    }
-
-    private void beranak() {
-        Random rn = new Random();
-        int bapak, ibu, posisi1, posisi2;
-        int loop = generasi.size() / 10;
-        for (int i = 0; i < loop; ++i) {
-            bapak = rn.nextInt(generasi.size() - 1);
-            ibu = rn.nextInt(generasi.size() - 1);
-            posisi1 = rn.nextInt(68);
-            posisi2 = rn.nextInt(68);
-            if (posisi2 > posisi1) {
-                posisi1 += posisi2;
-                posisi2 = posisi1 - posisi2;
-                posisi1 -= posisi2;
-            }
-            if (posisi1 < posisi2) {
-                Individu anak1 = (Individu) generasi.get(ibu).clone();
-                anak1.set(generasi.get(bapak), posisi1, posisi2); //anak1: pinggiran ibu, tengah bapak
-                Individu anak2 = (Individu) generasi.get(bapak).clone();
-                anak2.set(generasi.get(ibu), posisi1, posisi2); //anak2: pinggiran bapak, tengah ibu
-
-                //update generasi
-                generasi.set(ibu, anak1);
-                generasi.set(bapak, anak2);
-            }
-        }
-    }
-
-    private void seleksi() {
-    }
-
-    int fitness(Individu individu) {
-
-        return 0;
     }
 
     void saveToCLP() {
