@@ -11,6 +11,8 @@
 
 package gendruwo;
 
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 
 /**
@@ -27,6 +29,7 @@ public class GUI extends javax.swing.JFrame {
             System.out.println(ex);
         }
         initComponents();
+        ga = new GA();
     }
 
     /** This method is called from within the constructor to
@@ -40,10 +43,10 @@ public class GUI extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         training_panel = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        training_loc = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        browse_training_btn = new javax.swing.JButton();
+        generate_btn = new javax.swing.JButton();
         test_panel = new javax.swing.JPanel();
         input_panel = new javax.swing.JPanel();
         jLabel30 = new javax.swing.JLabel();
@@ -114,13 +117,23 @@ public class GUI extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 100, 100));
         setResizable(false);
 
-        jTextField1.setText("-");
+        training_loc.setText("-");
 
         jLabel1.setText("Training Set Location:");
 
-        jButton1.setText("Browse");
+        browse_training_btn.setText("Browse");
+        browse_training_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                browse_training_btnMouseReleased(evt);
+            }
+        });
 
-        jButton2.setText("Generate Rules");
+        generate_btn.setText("Generate Rules");
+        generate_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                generate_btnMouseReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout training_panelLayout = new javax.swing.GroupLayout(training_panel);
         training_panel.setLayout(training_panelLayout);
@@ -130,11 +143,11 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(training_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(training_panelLayout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(training_loc, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                        .addComponent(browse_training_btn))
                     .addComponent(jLabel1)
-                    .addComponent(jButton2))
+                    .addComponent(generate_btn))
                 .addContainerGap(305, Short.MAX_VALUE))
         );
         training_panelLayout.setVerticalGroup(
@@ -144,10 +157,10 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(training_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(training_loc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(browse_training_btn))
                 .addGap(46, 46, 46)
-                .addComponent(jButton2)
+                .addComponent(generate_btn)
                 .addContainerGap(594, Short.MAX_VALUE))
         );
 
@@ -172,7 +185,7 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel2.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Verdana", 1, 14));
         jLabel2.setText("Cap");
 
         jLabel3.setText("Shape");
@@ -231,7 +244,7 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel6.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Verdana", 1, 14));
         jLabel6.setText("Bruises");
 
         bruises_c.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "has bruises", "no bruise" }));
@@ -259,7 +272,7 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel7.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Verdana", 1, 14));
         jLabel7.setText("Gill");
 
         jLabel8.setText("Attachment");
@@ -326,7 +339,7 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel11.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Verdana", 1, 14));
         jLabel11.setText("Odor");
 
         odor_c.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "almond", "anise", "creosote", "fishy", "foul", "musty", "none", "pungent", "spicy" }));
@@ -354,7 +367,7 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel13.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Verdana", 1, 14));
         jLabel13.setText("Veil");
 
         jLabel14.setText("Type");
@@ -401,7 +414,7 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel16.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel16.setFont(new java.awt.Font("Verdana", 1, 14));
         jLabel16.setText("Ring");
 
         jLabel17.setText("Number");
@@ -448,7 +461,7 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel19.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel19.setFont(new java.awt.Font("Verdana", 1, 14));
         jLabel19.setText("Population");
 
         population_c.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "abundant", "clustered", "numerous", "scattered", "several", "solitary" }));
@@ -476,7 +489,7 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel8.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel20.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel20.setFont(new java.awt.Font("Verdana", 1, 14));
         jLabel20.setText("Spore");
 
         jLabel21.setText("Print Color");
@@ -492,7 +505,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(spore_print_color_c, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel20))
                 .addGap(20, 20, 20))
@@ -511,7 +524,7 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel9.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel22.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel22.setFont(new java.awt.Font("Verdana", 1, 14));
         jLabel22.setText("Habitat");
 
         habitat_c.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "grasses", "leaves", "meadows", "paths", "urban", "waste", "woods" }));
@@ -539,7 +552,7 @@ public class GUI extends javax.swing.JFrame {
 
         jPanel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel23.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel23.setFont(new java.awt.Font("Verdana", 1, 14));
         jLabel23.setText("Stalk");
 
         jLabel24.setText("Shape");
@@ -629,7 +642,7 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton3.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Arial Black", 0, 24));
         jButton3.setForeground(new java.awt.Color(0, 102, 102));
         jButton3.setText("Check Edibility!!");
 
@@ -696,13 +709,33 @@ public class GUI extends javax.swing.JFrame {
 
         getContentPane().add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
-        jLabel31.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel31.setFont(new java.awt.Font("Tahoma", 0, 36));
         jLabel31.setForeground(new java.awt.Color(0, 0, 255));
         jLabel31.setText("Gendruwo");
         getContentPane().add(jLabel31, java.awt.BorderLayout.PAGE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void browse_training_btnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_browse_training_btnMouseReleased
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        int retval = fc.showOpenDialog(this);
+
+        if (retval == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            training_loc.setText(file.getAbsolutePath());
+        }
+    }//GEN-LAST:event_browse_training_btnMouseReleased
+
+    private void generate_btnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generate_btnMouseReleased
+        // TODO add your handling code here:
+        //membaca file training
+        ga.bacaTraining(training_loc.getText());
+
+        //generate rules dari data training dengan GA
+        
+    }//GEN-LAST:event_generate_btnMouseReleased
 
     /**
     * @param args the command line arguments
@@ -716,10 +749,12 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton browse_training_btn;
     private javax.swing.JComboBox bruises_c;
     private javax.swing.JComboBox cap_color_c;
     private javax.swing.JComboBox cap_shape_c;
     private javax.swing.JComboBox cap_surface_c;
+    private javax.swing.JButton generate_btn;
     private javax.swing.JComboBox gill_attachment_c;
     private javax.swing.JComboBox gill_attachment_c1;
     private javax.swing.JComboBox gill_color_c;
@@ -727,8 +762,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JComboBox gill_spacing_c;
     private javax.swing.JComboBox habitat_c;
     private javax.swing.JPanel input_panel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -772,7 +805,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JComboBox odor_c;
     private javax.swing.JComboBox population_c;
     private javax.swing.JComboBox spore_print_color_c;
@@ -782,6 +814,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JComboBox stalk_surface_above_ring_c;
     private javax.swing.JComboBox stalk_surface_below_ring_c;
     private javax.swing.JPanel test_panel;
+    private javax.swing.JTextField training_loc;
     private javax.swing.JPanel training_panel;
     private javax.swing.JComboBox veil_color_c;
     private javax.swing.JComboBox veil_color_c1;
@@ -789,4 +822,5 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JComboBox veil_type_c1;
     // End of variables declaration//GEN-END:variables
 
+    private GA ga;
 }
