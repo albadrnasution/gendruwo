@@ -7,15 +7,18 @@ package gendruwo;
 import java.util.BitSet;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  *
  * @author Hendra
  */
-public class Individu extends BitSet {
+public class Individu extends BitSet implements Comparable {
+    
+    int fitnessValue = 0;
+    
     //list atribut yang dimiliki oleh individu
     //ceritanya teh, individu punya atribut 
-
     static final ArrayList<Attribute> attributes = new ArrayList<Attribute>(Arrays.asList(
             new Attribute("edibility", 0, 0, "ep"),
             new Attribute("cap-shape", 1, 3, "bcxfks"),
@@ -62,6 +65,31 @@ public class Individu extends BitSet {
         }
         return different;
     }
+    
+    /**
+     * Berdasarkan list data training yang dimasukkan, menghitung berapa banyak
+     * rules yang ada di individu ini cocok dengan data training.
+     * Jumlah kecocokan disimpan dalam fitnessValue.
+     * @param listTraining 
+     */
+    public void updateFitnessIndividu(List<Individu> listTraining){
+        int nilai=0;
+        
+        for (Individu train : listTraining){
+            if (this.compare(train))
+                nilai++;
+        }
+        
+        this.fitnessValue = nilai;
+    }
+    
+    /**
+     * Mengembalikan fitnessValue yang ada.
+     * @return fitnessValue sekarang
+     */
+    public int getFitnessValue(){
+        return fitnessValue;
+    }
 
     /**
      * Mengeset bit dari pasangan ke bit dalam individu, dari bit index awal ke indeex akhir.
@@ -73,5 +101,13 @@ public class Individu extends BitSet {
         for (int i = awal; i <= akhir; ++i) {
             this.set(i, pasangan.get(i));
         }
+    }
+
+    public int compareTo(Object anotherIndividu) throws ClassCastException {
+        if (!(anotherIndividu instanceof Individu)) {
+            throw new ClassCastException("A Individu object expected.");
+        }
+        int anotherFitnessValue = ((Individu) anotherIndividu).getFitnessValue();
+        return this.getFitnessValue() - anotherFitnessValue;
     }
 }
