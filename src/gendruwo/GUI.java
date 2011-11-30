@@ -748,8 +748,9 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println(generateFacts());
         JM.executeRules(generateFacts());
-        String result = JM.getOutput().substring(JM.getOutput().length()-1);
-        if(result=="e") result="edible"; else result = "poisonous";
+        String result;
+        char kelas = JM.getOutput().charAt(JM.getOutput().length()-3);
+        if(kelas=='e') result="edible"; else result = "poisonous";
         JOptionPane.showMessageDialog(null, "This mushroom is possibly "+result, "Hasil", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_check_btnMouseReleased
 

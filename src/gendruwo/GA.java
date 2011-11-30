@@ -328,6 +328,7 @@ public class GA {
     void saveToCLP(String clp_loc) {
         //Menulis CLP
         //rules = training;
+
         try {
             File f = new File(clp_loc);
             if (!f.exists()) {
@@ -353,7 +354,7 @@ public class GA {
                                 code += 1;
                             }
                         }
-                        /*if(code<Individu.attributes.get(i).pilihan.length())*/ simpan.println("   (" + Individu.attributes.get(a).nama + " " + code + ")");
+                        if(code<Individu.attributes.get(a).pilihan.length()) simpan.println("   ("+Individu.attributes.get(a).nama +" "+ code + ")");
                     }
                     simpan.println("   =>");
                     //atribut ke-0 adalah kelas, menjadi RHS
@@ -426,7 +427,7 @@ public class GA {
 //        }
         /* Trying to GA */
         GA putri = new GA();
-        putri.bacaTraining("agaricus-lepiota-varis.data");
+        putri.bacaTraining("agaricus-lepiota-varis.data.txt");
         putri.doGA();
         for (int i = 0; i < putri.rules.size(); ++i) {
             putri.rules.get(i).print();
