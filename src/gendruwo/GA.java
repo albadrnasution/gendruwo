@@ -7,12 +7,20 @@ package gendruwo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.io.*;
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Hendra, Albadr, Sidik
  */
 public class GA {
+
+    ArrayList<Attribute> att = new ArrayList<Attribute>();
 
     final ArrayList<Individu> training = new ArrayList<Individu>();
     ArrayList<Individu> generasi = new ArrayList<Individu>();
@@ -22,9 +30,56 @@ public class GA {
     public GA() {
     }
 
-    public void bacaTraining() {
+    public void bacaTraining(String file_addr) {
         //mengisi ArrayList training dengan membaca dari file
+        File file = new File(file_addr);
+        BufferedReader reader = null;
+        String data = null;
+
+        //generate char to bitset mapping
+        ArrayList<Map<String, Integer>> mapper = new ArrayList<Map<String, Integer>>();
+        for (int i = 0; i < Individu.attributes.size(); ++i) {
+            //iterasi semua atribut
+            Map<String, Integer> m = new HashMap<String, Integer>();
+
+            String pil = Individu.attributes.get(i).pilihan;
+            for (int en = 0; en < pil.length(); ++en) {
+                //memetakan semua pilihan yang ada
+                m.put(pil.substring(en, en + 1), en);
+            }
+            mapper.add(m);
+        }
+
+        try {
+            // repeat until all lines is read
+            reader = new BufferedReader(new FileReader(file));
+            int pointer = 0, code;
+            String att;
+            while ((data = reader.readLine()) != null) {
+                //parsing sebuah baris menjadi sebuah data training
+                Individu baru = new Individu(69);
+                pointer=0;
+                for (int i = 0; i < Individu.attributes.size(); ++i) {
+                    att = data.charAt(pointer) + "";
+                    //System.out.println(i+" -> "+att);
+                    code = mapper.get(i).get(att);
+                    for (int bit = Individu.attributes.get(i).iAwal; bit <= Individu.attributes.get(i).iAkhir; ++bit) {
+                        //mengisi individu
+                        if (code%2 == 0) {
+                            baru.set(bit, false);
+                        }else baru.set(bit, true);
+                        code = code >> 1;
+                    }
+                    pointer += 2;
+                }
+                training.add(baru);
+                baru.print(); System.out.println();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(GA.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+
 
     public void firstStage() {
         RandomGendruwo fsRand = new RandomGendruwo();
@@ -90,6 +145,7 @@ public class GA {
                     }
                 }
             }
+
             
             /*Stopper*/
             if (currentPopulation <= initialPopulation * CONSTANT.TERMINAL_POP_FROM_INITIAL) {
@@ -238,7 +294,6 @@ public class GA {
     void saveToCLP() {
         
     }
-
     /**
      * fitness ini buat menghitung kecocokan populasi dalam menyampuli data yang ada
      * @return 
@@ -263,9 +318,5 @@ public class GA {
             int randomInt = randomGenerator.nextInt(100);
             System.out.println("Generated : " + randomInt);
         }
-
-        Individu in = new Individu();
-
-        //log("Done.");
     }
 }

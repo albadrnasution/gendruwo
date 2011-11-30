@@ -17,6 +17,21 @@ import java.util.List;
 public class Individu extends BitSet implements Comparable {
     
     int fitnessValue = 0;
+    Individu(){
+
+    }
+    //konstruktor, membuat individu 69 bit
+    Individu(int n){
+        super(n);
+    }
+    
+    void print(){
+        for(int i=0; i<this.length(); i++){
+            if (this.get(i)) System.out.print(1);
+            else System.out.print(0);
+        }
+    }
+
     //list atribut yang dimiliki oleh individu
     //ceritanya teh, individu punya atribut 
     //poke ini itu kalau ada yang rule training yang cocok akan diset true
