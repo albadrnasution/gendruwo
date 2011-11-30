@@ -16,9 +16,11 @@ import java.util.List;
 public class Individu extends BitSet implements Comparable {
     
     int fitnessValue = 0;
-    
     //list atribut yang dimiliki oleh individu
     //ceritanya teh, individu punya atribut 
+    //poke ini itu kalau ada yang rule training yang cocok akan diset true
+    private boolean poke = false;
+    
     static final ArrayList<Attribute> attributes = new ArrayList<Attribute>(Arrays.asList(
             new Attribute("edibility", 0, 0, "ep"),
             new Attribute("cap-shape", 1, 3, "bcxfks"),
@@ -63,6 +65,7 @@ public class Individu extends BitSet implements Comparable {
                 different=(part1Int == part2Int);
             }
         }
+        individuTraining.setPoke(different);
         return different;
     }
     
@@ -102,6 +105,21 @@ public class Individu extends BitSet implements Comparable {
             this.set(i, pasangan.get(i));
         }
     }
+
+    /**
+     * @return the poke
+     */
+    public boolean isPoke() {
+        return poke;
+    }
+
+    /**
+     * @param poke the poke to set
+     */
+    public void setPoke(boolean poke) {
+        this.poke = poke;
+    }
+    
 
     public int compareTo(Object anotherIndividu) throws ClassCastException {
         if (!(anotherIndividu instanceof Individu)) {
