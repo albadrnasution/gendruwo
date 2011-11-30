@@ -145,8 +145,6 @@ public class GA {
                     }
                 }
             }
-
-            
             /*Stopper*/
             if (currentPopulation <= initialPopulation * CONSTANT.TERMINAL_POP_FROM_INITIAL) {
                 doFristStage = false;
@@ -160,7 +158,7 @@ public class GA {
      */
     public void secondStage() {
         /* random engine */
-        Random rasgele = new Random();
+        RandomGendruwo rasgele = new RandomGendruwo();
         boolean doSecondStage = true; /* order second stage */
         int population = generasi.size(); /* number of population */
         int individuCandidate = 0; /*candidate Couple */
@@ -170,9 +168,7 @@ public class GA {
             /* Sort population based on fitness function*/
             Collections.sort(generasi);
             /* get total being crossovered individu */
-            while (rationCouple < CONSTANT.COVER_RATE_MAX || rationCouple > CONSTANT.COVER_RATE_MIN) {
-                rationCouple = rasgele.nextFloat();
-            }
+            rationCouple = rasgele.nextFloat(CONSTANT.COVER_RATE_MIN, CONSTANT.COVER_RATE_MAX);
             individuCandidate = (int) (rationCouple * population);
             /* Sum total fitness function from whole generation */
             int totalFitness = 0;
@@ -186,7 +182,7 @@ public class GA {
             }
             /* do crossover */
             for (int onCouple = 0; onCouple < individuCandidate / 2; ++onCouple) {
-                
+
                 /* Let's find the individu candidates */
                 boolean foundCandidate = false;
                 int FirstCouple = 0;
@@ -217,7 +213,7 @@ public class GA {
                 /* if you want to match the good one with the bad one */
 //                Individu individuL = generasi.get(onCouple);
 //                Individu individuP = generasi.get((individuCandidate - 1) - onCouple);
-                
+
                 Individu individuL = generasi.get(FirstCouple);
                 Individu individuP = generasi.get(secondCouple);
                 int posisi1 = rasgele.nextInt(CONSTANT.CHROMOSOME_LEN);
@@ -292,7 +288,6 @@ public class GA {
     }
 
     void saveToCLP() {
-        
     }
     /**
      * fitness ini buat menghitung kecocokan populasi dalam menyampuli data yang ada
