@@ -36,7 +36,6 @@ public class JessManager {
 
      public void executeRules(String Facts) {
         try {
-            System.out.println("jreeeeeeng");
             engine.batch("mushroom.clp");
             engine.reset();
             String Assert = "(assert "+Facts+")";
