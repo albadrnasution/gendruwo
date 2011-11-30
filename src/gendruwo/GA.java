@@ -284,6 +284,7 @@ public class GA {
         for (int iterCopier = 0; iterCopier < generasi.size(); ++iterCopier) {
             rules.add(generasi.get(iterCopier));
         }
+        Collections.sort(rules);
     }
 
     void saveToCLP() {
@@ -308,10 +309,17 @@ public class GA {
         //log("Generating 10 random integers in range 0..99.");
 
         //note a single Random object is reused here
-        Random randomGenerator = new Random();
-        for (int idx = 1; idx <= 10; ++idx) {
-            int randomInt = randomGenerator.nextInt(100);
-            System.out.println("Generated : " + randomInt);
+//        Random randomGenerator = new Random();
+//        for (int idx = 1; idx <= 10; ++idx) {
+//            int randomInt = randomGenerator.nextInt(100);
+//            System.out.println("Generated : " + randomInt);
+//        }
+        /* Trying to GA */
+        GA putri = new GA();
+        putri.bacaTraining("D:\\Grade 4\\Semester 1\\SBP\\Tugas\\Mushrom\\agaricus-lepiota.data");
+        putri.doGA();
+        for(int i=0;i<putri.rules.size();++i){
+            putri.rules.get(i).print();
         }
     }
 }
