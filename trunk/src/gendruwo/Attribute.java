@@ -5,6 +5,8 @@
 
 package gendruwo;
 
+import java.util.BitSet;
+
 /**
  *
  * @author Hendra
@@ -23,7 +25,7 @@ public class Attribute {
     }
 
     public int getPartInt(Individu individu){
-        Individu part = (Individu) individu.get(iAwal, iAkhir+1);
+        BitSet part = individu.get(iAwal, iAkhir+1);
         int partInt=0;
         for(int i=0; i<(iAkhir-iAwal+1); ++i)
             if(part.get(i)) partInt |= (1<<i);
