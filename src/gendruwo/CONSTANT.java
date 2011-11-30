@@ -34,4 +34,7 @@ public class CONSTANT {
     
     /*Besar persentasu akurasi yang diinginkan*/
     public static float DESIRED_ACCURATION = 0.8f;          /*80%*/
+    
+    /*Besar persentasu akurasi yang diinginkan*/
+    public static int CHROMOSOME_LEN = 68;          /*80%*/
 }

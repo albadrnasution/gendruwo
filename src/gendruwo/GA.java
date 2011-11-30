@@ -50,6 +50,46 @@ public class GA {
     public void bacaTraining(){
         //mengisi ArrayList training dengan membaca dari file
     }
+    
+    public void firstStage(){
+        Random fsRand = new Random();
+        int initialPopulation = generasi.size();
+        boolean doFristStage = true;
+        
+        while (doFristStage){
+            int currentPopulation = generasi.size();
+            /*Fitness Calculation*/
+            
+            /*Sort by fitness value*/
+            
+            /*Selection and Crossover*/
+            
+            /*Massacre*/
+            int desiredPopulation = (int) ((1-CONSTANT.DECAY_POP_RATE)*currentPopulation);
+            generasi.clear();
+            
+            
+            currentPopulation = desiredPopulation;
+            
+            /*Mutation*/
+            int numofMutant = (int) (CONSTANT.MUTATION_RATE * generasi.size());
+            for (int m=0;m<numofMutant;++m){
+                /*Pilih kromosom target, total target numofMutant target*/
+                int target = fsRand.nextInt(currentPopulation);
+                /*Iterasi tiap bit pada target, jika random < probabiliti, mutasi bit*/
+                for (int posisi=0;posisi<CONSTANT.CHROMOSOME_LEN;++posisi){
+                    if (Math.random()<=CONSTANT.MUTATION_PROB){
+                        generasi.get(target).flip(posisi);
+                    }
+                }
+            }
+            
+            if (currentPopulation <= initialPopulation*CONSTANT.TERMINAL_POP_FROM_INITIAL){
+                doFristStage = false;
+            }
+        }
+        
+    }
 
     public void doGA(){
         //melakukan serangkaian genetic algorithm hingga seleksi
@@ -118,4 +158,17 @@ public class GA {
     void saveToCLP(){
         
     }
+    
+    public static final void main(String... aArgs){
+    //log("Generating 10 random integers in range 0..99.");
+    
+    //note a single Random object is reused here
+    Random randomGenerator = new Random();
+    for (int idx = 1; idx <= 10; ++idx){
+      int randomInt = randomGenerator.nextInt(100);
+        System.out.println("Generated : " + randomInt);
+    }
+    
+    //log("Done.");
+  }
 }
