@@ -90,7 +90,8 @@ public class GA {
                     }
                 }
             }
-
+            
+            /*Stopper*/
             if (currentPopulation <= initialPopulation * CONSTANT.TERMINAL_POP_FROM_INITIAL) {
                 doFristStage = false;
             }
