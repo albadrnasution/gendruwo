@@ -265,10 +265,13 @@ public class GA {
             /* Temination state */
             if (generationCounter >= CONSTANT.MAX_GENERATION) {
                 doSecondStage = false;
+                System.out.println("MAX REACHED");
             }
             /* Other termination state */
-            if (fitnessPopulation() / training.size() >= CONSTANT.DESIRED_ACCURATION) {
+            float accuracy = fitnessPopulation() / training.size();
+            if (accuracy >= CONSTANT.DESIRED_ACCURATION) {
                 doSecondStage = false;
+                System.out.println("Congratulation, you reach accuracy "+accuracy);
             }
         }
 
@@ -370,12 +373,12 @@ public class GA {
 //        }
         /* Trying to GA */
         GA putri = new GA();
-        putri.bacaTraining("D:\\Grade 4\\Semester 1\\SBP\\Tugas\\Mushrom\\agaricus-lepiota.data");
+        putri.bacaTraining("agaricus-lepiota-varis.data");
         putri.doGA();
         for (int i = 0; i < putri.rules.size(); ++i) {
             putri.rules.get(i).print();
         }
-        putri.saveToCLP("rule.clp");
+        putri.saveToCLP("rule_new.clp");
         System.out.println("selesai......");
     }
 }

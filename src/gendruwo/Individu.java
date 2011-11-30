@@ -71,18 +71,19 @@ public class Individu extends BitSet implements Comparable {
      * @return 
      */
     public boolean compare(Individu individuTraining) {
-        boolean different = false;
-        for (int i = 0; i < attributes.size() && !different; ++i) {
+        boolean same = true;
+        for (int i = 0; i < attributes.size() && same; ++i) {
             int part1Int = attributes.get(i).getPartInt(this);
             int part2Int = attributes.get(i).getPartInt(individuTraining);
             if (part2Int > attributes.get(i).pilihan.length()) {
-                different= true; //tidak termasuk pilihan yang ada --> don't care
+                same= true; //tidak termasuk pilihan yang ada --> don't care
             } else {
-                different=(part1Int == part2Int);
+                same=(part1Int == part2Int);
             }
         }
-        individuTraining.setPoke(different);
-        return different;
+        if (!individuTraining.isPoke())
+            individuTraining.setPoke(same);
+        return same;
     }
     
     /**
