@@ -175,9 +175,11 @@ public class GA {
             }
             /* Let's have with roulette */
             float[] roulette = new float[individuCandidate];
+
             if (totalFitness != 0) {
                 for (int interRoulet = 0; interRoulet < individuCandidate; ++interRoulet) {
-                    roulette[interRoulet] = generasi.get(interRoulet).getFitnessValue() / totalFitness;
+                    roulette[interRoulet] = interRoulet ==0 ? generasi.get(interRoulet).getFitnessValue() / totalFitness:
+                            roulette[interRoulet-1] + generasi.get(interRoulet).getFitnessValue() / totalFitness;
                 }
             }
 
@@ -187,29 +189,29 @@ public class GA {
                 boolean foundCandidate = false;
                 int FirstCouple = 0;
                 int secondCouple = 0;
+
                 if (totalFitness != 0) {
                     /* if have roulette */
-                    while (!foundCandidate) {
-                        float candidate = rasgele.nextFloat();
-                        /* selecting the proposal for being a couple */
-                        for (int y = 0; y < roulette.length; ++y) {
-                            if (candidate < roulette[y]) {
-                                foundCandidate = true;
-                                FirstCouple = y;
-                                roulette[y] = 0;
-                            }
+                    /* selecting the proposal for being a couple */
+                    for (int y = 0; y < roulette.length&&!foundCandidate; ++y) {
+                    float candidate = rasgele.nextFloat();
+                        if (candidate < roulette[y]) {
+                            foundCandidate = true;
+                            FirstCouple = y;
+                            roulette[y] = 0;
                         }
                     }
+                        
                     foundCandidate = false;
-                    while (!foundCandidate) {
+                    
+                    /* selecting the proposal for being a couple */
+                    for (int y = 0; y < roulette.length&&!foundCandidate; ++y) {
                         float candidate = rasgele.nextFloat();
-                        /* selecting the proposal for being a couple */
-                        for (int y = 0; y < roulette.length; ++y) {
-                            if (candidate < roulette[y]) {
-                                foundCandidate = true;
-                                secondCouple = y;
-                                roulette[y] = 0;
-                            }
+
+                        if (candidate < roulette[y]) {
+                            foundCandidate = true;
+                            secondCouple = y;
+                            roulette[y] = 0;
                         }
                     }
                 } else {
@@ -222,12 +224,15 @@ public class GA {
                             FirstCouple = candidate;
                             generasi.get(candidate).isMarriage = true;
                         }
+
                     }
+
                     foundCandidate = false;
                     while (!foundCandidate) {
                         int candidate = rasgele.nextInt(population);
                         /* selecting the proposal for being a couple */
                         if (!generasi.get(candidate).isMarriage) {
+
                             foundCandidate = true;
                             secondCouple = candidate;
                             generasi.get(candidate).isMarriage = true;
@@ -421,12 +426,12 @@ public class GA {
 //        }
         /* Trying to GA */
         GA putri = new GA();
-        putri.bacaTraining("leona.data");
+        putri.bacaTraining("agaricus-lepiota-varis.data");
         putri.doGA();
         for (int i = 0; i < putri.rules.size(); ++i) {
             putri.rules.get(i).print();
         }
-        putri.saveToCLP("rule_new.clp");
+        putri.saveToCLP("rule_new_acc.clp");
         System.out.println("selesai......");
     }
 }
