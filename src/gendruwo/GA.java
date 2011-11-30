@@ -72,9 +72,8 @@ public class GA {
                     pointer += 2;
                 }
                 training.add(baru);
-                baru.print();
-                System.out.println();
             }
+            System.out.println("Pembacaan file selesai, diperoleh " + training.size() + "data training");
         } catch (IOException ex) {
             Logger.getLogger(GA.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -287,7 +286,63 @@ public class GA {
         Collections.sort(rules);
     }
 
-    void saveToCLP() {
+    void saveToCLP(String clp_loc) {
+
+        //mengisi rules dengan dummy
+        rules = training;
+
+        //Menulis CLP
+        try {
+            File f = new File(clp_loc);
+            if (!f.exists()) {
+                f.createNewFile(); //membuat file baru jika belum ada
+                //Menulis CLP
+            }
+            if (f.canWrite()) {
+                PrintWriter simpan = new PrintWriter(f);
+
+                //Interview ...
+
+                for (int i = 0; i < rules.size(); ++i) {
+                    simpan.println("(defrule rule" + i);
+                    //ambil nilai semua atribut yang tidak don't care sebagai LHS
+                    int code;
+                    for (int a = 1; a < Individu.attributes.size(); ++a) {
+                        code=0;
+                        //ekstrak sebuah atribut
+                        for (int bit = Individu.attributes.get(a).iAkhir; bit >= Individu.attributes.get(a).iAwal; --bit) {
+                            if(rules.get(i).get(bit)) code+=1;
+                            code = code << 1;
+                        }
+                        /*if(code<Individu.attributes.get(i).pilihan.length())*/simpan.println("   ("+Individu.attributes.get(a).nama +" "+ code + ")");
+                    }
+                    simpan.println("   =>");
+                    //atribut ke-0 adalah kelas, menjadi RHS
+                    if(rules.get(i).get(0)) {
+                        simpan.println("   ("+Individu.attributes.get(0).nama +"  poisonous)");
+                        simpan.println("   (printout t \"poisonous\" crlf)");
+                    }
+                    else {
+                        simpan.println("   ("+Individu.attributes.get(0).nama +"  edible)");
+                        simpan.println("   (printout t \"edible\" crlf)");
+                    }
+
+                    //memberi mark bahwa solusi sudah ditemukan
+                    simpan.println("   (solution found)\n)");
+                    simpan.println();
+                }
+                //membuat rule default
+                simpan.println("(defrule default");
+                simpan.println("   (not (solution found))");
+                simpan.println("   =>");
+                simpan.println("   (printout t \"poisonous\" crlf)");
+                simpan.println(")");
+
+                simpan.close();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(GA.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

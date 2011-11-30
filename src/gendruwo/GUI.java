@@ -734,7 +734,9 @@ public class GUI extends javax.swing.JFrame {
         ga.bacaTraining(training_loc.getText());
 
         //generate rules dari data training dengan GA
-        
+
+        //membangkitkan CLP
+        ga.saveToCLP("mushroom.clp");
     }//GEN-LAST:event_generate_btnMouseReleased
 
     /**
