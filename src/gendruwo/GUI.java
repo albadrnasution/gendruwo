@@ -134,6 +134,11 @@ public class GUI extends javax.swing.JFrame {
                 generate_btnMouseReleased(evt);
             }
         });
+        generate_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generate_btnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout training_panelLayout = new javax.swing.GroupLayout(training_panel);
         training_panel.setLayout(training_panelLayout);
@@ -168,15 +173,13 @@ public class GUI extends javax.swing.JFrame {
 
         input_panel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel30.setIcon(new javax.swing.ImageIcon("D:\\Kuliah\\Kuliah Semester 7\\SBP\\Gendruwo\\src\\gendruwo\\img\\mushroom.jpg")); // NOI18N
-
         javax.swing.GroupLayout input_panelLayout = new javax.swing.GroupLayout(input_panel);
         input_panel.setLayout(input_panelLayout);
         input_panelLayout.setHorizontalGroup(
             input_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(input_panelLayout.createSequentialGroup()
                 .addComponent(jLabel30)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(260, Short.MAX_VALUE))
         );
         input_panelLayout.setVerticalGroup(
             input_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -642,7 +645,7 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        check_btn.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
+        check_btn.setFont(new java.awt.Font("Arial Black", 0, 24));
         check_btn.setForeground(new java.awt.Color(0, 102, 102));
         check_btn.setText("Check Edibility!!");
         check_btn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -683,7 +686,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(test_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, test_panelLayout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -739,9 +742,11 @@ public class GUI extends javax.swing.JFrame {
         ga.bacaTraining(training_loc.getText());
 
         //generate rules dari data training dengan GA
+        ga.doGA();
 
         //membangkitkan CLP
         ga.saveToCLP("mushroom.clp");
+        JOptionPane.showMessageDialog(null, "Generate Rule Selesai", "Hasil", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_generate_btnMouseReleased
 
     private void check_btnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_check_btnMouseReleased
@@ -753,6 +758,10 @@ public class GUI extends javax.swing.JFrame {
         if(kelas=='e') result="edible"; else result = "poisonous";
         JOptionPane.showMessageDialog(null, "This mushroom is possibly "+result, "Hasil", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_check_btnMouseReleased
+
+    private void generate_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generate_btnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_generate_btnActionPerformed
 
     /**
     * @param args the command line arguments
