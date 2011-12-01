@@ -57,6 +57,19 @@
                           </Group>
                           <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="generate_btn" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel32" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel34" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel33" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="delay_rate_c" alignment="0" pref="56" max="32767" attributes="1"/>
+                                  <Component id="rule_size_c" alignment="0" pref="56" max="32767" attributes="1"/>
+                                  <Component id="desired_accuracy_c" alignment="0" max="32767" attributes="1"/>
+                              </Group>
+                          </Group>
                       </Group>
                       <EmptySpace pref="305" max="32767" attributes="0"/>
                   </Group>
@@ -72,9 +85,24 @@
                           <Component id="training_loc" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="browse_training_btn" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel32" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="rule_size_c" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="delay_rate_c" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel33" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="desired_accuracy_c" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                       <Component id="generate_btn" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="594" max="32767" attributes="0"/>
+                      <EmptySpace pref="458" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -106,6 +134,36 @@
                 <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generate_btnMouseReleased"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="generate_btnActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel32">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Rules Size (%)"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel33">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Decay Rate (/1000)"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel34">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Desired Accuracy (%)"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JSpinner" name="rule_size_c">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="rule_size_c.setValue(8);"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JSpinner" name="delay_rate_c">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="delay_rate_c.setValue(8);"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JSpinner" name="desired_accuracy_c">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="desired_accuracy_c.setValue(30);"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>

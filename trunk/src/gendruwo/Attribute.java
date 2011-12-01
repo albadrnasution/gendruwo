@@ -26,10 +26,17 @@ public class Attribute {
 
     public int getPartInt(Individu individu){
         BitSet part = individu.get(iAwal, iAkhir+1);
-        int partInt=0;
-        for(int i=0; i<(iAkhir-iAwal+1); ++i)
-            if(part.get(i)) partInt |= (1<<i);
+        //int partInt=0;
+        //for(int i=0; i<(iAkhir-iAwal+1); ++i)
+        //    if(part.get(i)) partInt |= (1<<i);
+        int code=0;
+        for (int bit = iAkhir; bit >= iAwal; --bit) {
+            code = code << 1;
+            if (individu.get(bit)) {
+                code += 1;
+            }
+        }
 
-        return partInt;
+        return code;
     }
 }

@@ -47,6 +47,12 @@ public class GUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         browse_training_btn = new javax.swing.JButton();
         generate_btn = new javax.swing.JButton();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        rule_size_c = new javax.swing.JSpinner();
+        delay_rate_c = new javax.swing.JSpinner();
+        desired_accuracy_c = new javax.swing.JSpinner();
         test_panel = new javax.swing.JPanel();
         input_panel = new javax.swing.JPanel();
         jLabel30 = new javax.swing.JLabel();
@@ -140,6 +146,18 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel32.setText("Rules Size (%)");
+
+        jLabel33.setText("Decay Rate (/1000)");
+
+        jLabel34.setText("Desired Accuracy (%)");
+
+        rule_size_c.setValue(8);
+
+        delay_rate_c.setValue(8);
+
+        desired_accuracy_c.setValue(30);
+
         javax.swing.GroupLayout training_panelLayout = new javax.swing.GroupLayout(training_panel);
         training_panel.setLayout(training_panelLayout);
         training_panelLayout.setHorizontalGroup(
@@ -152,7 +170,17 @@ public class GUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(browse_training_btn))
                     .addComponent(jLabel1)
-                    .addComponent(generate_btn))
+                    .addComponent(generate_btn)
+                    .addGroup(training_panelLayout.createSequentialGroup()
+                        .addGroup(training_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel32)
+                            .addComponent(jLabel34)
+                            .addComponent(jLabel33))
+                        .addGap(42, 42, 42)
+                        .addGroup(training_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(delay_rate_c, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                            .addComponent(rule_size_c, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                            .addComponent(desired_accuracy_c))))
                 .addContainerGap(305, Short.MAX_VALUE))
         );
         training_panelLayout.setVerticalGroup(
@@ -164,9 +192,21 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(training_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(training_loc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(browse_training_btn))
-                .addGap(46, 46, 46)
+                .addGap(54, 54, 54)
+                .addGroup(training_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel32)
+                    .addComponent(rule_size_c, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(training_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(delay_rate_c, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel33))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(training_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel34)
+                    .addComponent(desired_accuracy_c, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(51, 51, 51)
                 .addComponent(generate_btn)
-                .addContainerGap(594, Short.MAX_VALUE))
+                .addContainerGap(458, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Training", training_panel);
@@ -738,6 +778,11 @@ public class GUI extends javax.swing.JFrame {
 
     private void generate_btnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generate_btnMouseReleased
         // TODO add your handling code here:
+        //update CONSTANTs
+        CONSTANT.TERMINAL_POP_FROM_INITIAL = ((Integer) rule_size_c.getValue()).intValue()/100;
+        CONSTANT.DECAY_POP_RATE = ((Integer) delay_rate_c.getValue()).intValue()/1000;
+        CONSTANT.DESIRED_ACCURATION = ((Integer) desired_accuracy_c.getValue()).intValue()/100;
+
         //membaca file training
         ga.bacaTraining(training_loc.getText());
 
@@ -781,6 +826,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JComboBox cap_shape_c;
     private javax.swing.JComboBox cap_surface_c;
     private javax.swing.JButton check_btn;
+    private javax.swing.JSpinner delay_rate_c;
+    private javax.swing.JSpinner desired_accuracy_c;
     private javax.swing.JButton generate_btn;
     private javax.swing.JComboBox gill_attachment_c;
     private javax.swing.JComboBox gill_color_c;
@@ -813,6 +860,9 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -834,6 +884,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JComboBox population_c;
     private javax.swing.JComboBox ring_number_c;
     private javax.swing.JComboBox ring_type_c;
+    private javax.swing.JSpinner rule_size_c;
     private javax.swing.JComboBox spore_print_color_c;
     private javax.swing.JComboBox stalk_color_above_ring_c;
     private javax.swing.JComboBox stalk_color_below_ring_c;
