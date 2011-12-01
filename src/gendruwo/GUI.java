@@ -566,7 +566,7 @@ public class GUI extends javax.swing.JFrame {
 
         stalk_shape_c.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "bell", "conical", "convex", "flat", "knobbed", "sunken" }));
 
-        stalk_root_c.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "fibrous", "grooves", "scaly", "smooth" }));
+        stalk_root_c.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "bulbous","club","cup","equal", "rhizomorphs","rooted" }));
 
         stalk_surface_above_ring_c.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "fibrous", "grooves", "scaly", "smooth" }));
 
