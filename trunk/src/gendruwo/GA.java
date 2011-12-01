@@ -266,13 +266,12 @@ public class GA {
             }
 
             /* Getting the old individu */
-            for (int currOld = individuCandidate - 1; currOld < population; ++currOld) {
+            for (int currOld = offspring.size(); currOld < population; ++currOld) {
                 offspring.add(generasi.get(currOld));
             }
             /* Kill old generation */
             generasi.clear();
             /* let the young rules the world */
-            population = offspring.size();
             for (int young = 0; young < population; ++young) {
                 offspring.get(young).isMarriage = false;
                 generasi.add(offspring.get(young));
@@ -363,11 +362,9 @@ public class GA {
                     simpan.println("   =>");
                     //atribut ke-0 adalah kelas, menjadi RHS
                     if (rules.get(i).get(0)) {
-                        simpan.println("   (" + Individu.attributes.get(0).nama + "  poisonous)");
-                        simpan.println("   (printout t \"poisonous\" crlf)");
+                        simpan.println("   (assert (" + Individu.attributes.get(0).nama + "  poisonous))");
                     } else {
-                        simpan.println("   (" + Individu.attributes.get(0).nama + "  edible)");
-                        simpan.println("   (printout t \"edible\" crlf)");
+                        simpan.println("   (assert (" + Individu.attributes.get(0).nama + "  edible))");
                     }
 
                     //memberi mark bahwa solusi sudah ditemukan
@@ -431,7 +428,7 @@ public class GA {
 //        }
         /* Trying to GA */
         GA putri = new GA();
-        putri.bacaTraining("agaricus-lepiota-varis.data");
+        putri.bacaTraining("agaricus-lepiota-sen.data");
         putri.doGA();
         for (int i = 0; i < putri.rules.size(); ++i) {
             putri.rules.get(i).print();

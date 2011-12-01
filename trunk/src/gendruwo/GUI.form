@@ -1026,7 +1026,7 @@
                 <Component class="javax.swing.JComboBox" name="stalk_root_c">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="new javax.swing.DefaultComboBoxModel(new String[] { &quot;fibrous&quot;, &quot;grooves&quot;, &quot;scaly&quot;, &quot;smooth&quot; })" type="code"/>
+                      <Connection code="new javax.swing.DefaultComboBoxModel(new String[] { &quot;bulbous&quot;,&quot;club&quot;,&quot;cup&quot;,&quot;equal&quot;, &quot;rhizomorphs&quot;,&quot;rooted&quot; })" type="code"/>
                     </Property>
                   </Properties>
                 </Component>
