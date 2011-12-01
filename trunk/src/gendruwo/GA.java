@@ -86,7 +86,6 @@ public class GA {
         boolean doFristStage = true;
         int numgenerasi = 0;
         while (doFristStage) {
-            System.out.println("Generasi ke:" + numgenerasi++);
             /*Selection and Crossover*/
             float marriagePercentation = fsRand.nextFloat(CONSTANT.COVER_COUPLE_MIN, CONSTANT.COVER_COUPLE_MAX);
             int marriageCouple = (int) (marriagePercentation * currentPopulation);
@@ -116,6 +115,10 @@ public class GA {
             for (int idxOff = 0; idxOff < offspringSize; ++idxOff) {
                 offspring.get(idxOff).updateFitnessIndividu(training);
             }
+            int fitnessPop = fitnessPopulation() ;
+            float accuracy = (float)fitnessPop / training.size();
+            System.out.println("Generasi ke:" + numgenerasi +", popul="+generasi.size()+", acc = "+accuracy);
+            numgenerasi++;
 
             /*Sort next generation by fitness value*/
             Collections.sort(offspring);
@@ -162,7 +165,6 @@ public class GA {
         float rationCouple = 0; /* ratio Couple */
         int generationCounter = 0; /* number of generation */
         while (doSecondStage) {
-            System.out.println("Generasi ke:" + generationCounter);
             /* Sort population based on fitness function*/
             Collections.sort(generasi);
             /* get total being crossovered individu */
@@ -178,8 +180,8 @@ public class GA {
 
             if (totalFitness != 0) {
                 for (int interRoulet = 0; interRoulet < individuCandidate; ++interRoulet) {
-                    roulette[interRoulet] = interRoulet ==0 ? generasi.get(interRoulet).getFitnessValue() / totalFitness:
-                            roulette[interRoulet-1] + generasi.get(interRoulet).getFitnessValue() / totalFitness;
+                    roulette[interRoulet] = interRoulet ==0 ? (float)generasi.get(interRoulet).getFitnessValue() / totalFitness:
+                            roulette[interRoulet-1] + (float)generasi.get(interRoulet).getFitnessValue() / totalFitness;
                 }
             }
 
@@ -296,7 +298,9 @@ public class GA {
                 generasi.get(interIndividu).updateFitnessIndividu(training);
             }
             /* Other termination state */
-            float accuracy = fitnessPopulation() / training.size();
+            int fitnessPop = fitnessPopulation() ;
+            float accuracy = (float)fitnessPop / training.size();
+            System.out.println("Generasi ke:" + generationCounter+", popul="+generasi.size()+", acc = "+accuracy);
             if (accuracy >= CONSTANT.DESIRED_ACCURATION) {
                 doSecondStage = false;
                 System.out.println("Congratulation, you reach accuracy " + accuracy);
@@ -427,7 +431,7 @@ public class GA {
 //        }
         /* Trying to GA */
         GA putri = new GA();
-        putri.bacaTraining("agaricus-lepiota-varis.data.txt");
+        putri.bacaTraining("agaricus-lepiota-varis.data");
         putri.doGA();
         for (int i = 0; i < putri.rules.size(); ++i) {
             putri.rules.get(i).print();

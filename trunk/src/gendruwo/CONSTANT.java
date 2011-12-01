@@ -10,7 +10,7 @@ package gendruwo;
  */
 public class CONSTANT {
     /*Pembatasan maksimum generasi yang mungkin*/
-    public static final int MAX_GENERATION = 888;
+    public static final int MAX_GENERATION = 8888;
     
     /*Fraksi populasi yang dimutasi terhadap jumlah populasi saat itu*/
     public static final float MUTATION_RATE = 0.08f;    /*8%*/
@@ -22,7 +22,7 @@ public class CONSTANT {
     public static final float DECAY_POP_RATE = 0.38f;    /*0.8%*/
     
     /*Jumlah terminal populasi dibanding jumlah awal populasi*/
-    public static final float TERMINAL_POP_FROM_INITIAL = 0.08f;    /*8%*/
+    public static final float TERMINAL_POP_FROM_INITIAL = 0.008f;    /*8%*/
     
     /*Peluang minimum dan maksimum sebuah individu/kromosom terambil untuk cross-over*/
     public static final float COVER_RATE_MIN = 0.68f;       /*68%*/
