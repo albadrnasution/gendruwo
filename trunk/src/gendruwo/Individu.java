@@ -84,7 +84,7 @@ public class Individu extends BitSet implements Comparable {
         }
         if (!individuTraining.isPoke())
             individuTraining.setPoke(same);
-        return same;
+        return same && (individuTraining.get(0)==this.get(0));
     }
     
     /**
