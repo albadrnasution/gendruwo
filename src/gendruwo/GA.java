@@ -181,6 +181,11 @@ public class GA {
         int individuCandidate = 0; /*candidate Couple */
         float rationCouple = 0; /* ratio Couple */
         int generationCounter = 0; /* number of generation */
+        float mutationRate = CONSTANT.MUTATION_RATE;
+        int stagnant = 0;
+//        int stagnantCross = 0;
+        float oldAcc = 0.0f;
+//        float oldAccCross =0.0f;
         while (doSecondStage) {
             /* Sort population based on fitness function*/
             Collections.sort(generasi);
@@ -214,7 +219,7 @@ public class GA {
                     /* selecting the proposal for being a couple */
                     for (int y = 0; y < roulette.length&&!foundCandidate; ++y) {
                     float candidate = rasgele.nextFloat();
-                        if (candidate < roulette[y]) {
+                        if (candidate < roulette[y] && roulette[y]!=0) {
                             foundCandidate = true;
                             FirstCouple = y;
                             roulette[y] = 0;
@@ -227,7 +232,7 @@ public class GA {
                     for (int y = 0; y < roulette.length&&!foundCandidate; ++y) {
                         float candidate = rasgele.nextFloat();
 
-                        if (candidate < roulette[y]) {
+                        if (candidate < roulette[y] && roulette[y]!=0) {
                             foundCandidate = true;
                             secondCouple = y;
                             roulette[y] = 0;
@@ -283,12 +288,26 @@ public class GA {
             }
 
             /* Getting the old individu */
-            for (int currOld = offspring.size(); currOld < population; ++currOld) {
+            for (int currOld = 0; currOld < population; ++currOld) {
                 offspring.add(generasi.get(currOld));
             }
             /* Kill old generation */
             generasi.clear();
+            /* update fitness function in offspring*/
+            for (int interIndividu = 0; interIndividu < population; ++interIndividu) {
+                offspring.get(interIndividu).updateFitnessIndividu(training);
+            }
+            Collections.sort(offspring);
             /* let the young rules the world */
+//            population = offspring.size();
+            
+//            float accuracyCross = (float)fitnessPopulation() / training.size();
+//            if(oldAcc==accuracyCross){
+//                stagnant=stagnant+1;
+//            }
+//            if(stagnant%20==0){
+//                population=population+population/100;
+//            }
             for (int young = 0; young < population; ++young) {
                 offspring.get(young).isMarriage = false;
                 generasi.add(offspring.get(young));
@@ -297,7 +316,7 @@ public class GA {
             offspring.clear();
 
             /* Mutation */
-            int numbMutant = (int) (CONSTANT.MUTATION_RATE * population);
+            int numbMutant = (int) (mutationRate * population);
             for (int iterMutant = 0; iterMutant < numbMutant; ++iterMutant) {
                 /*Select the Target*/
                 int target = rasgele.nextInt(population);
@@ -313,9 +332,19 @@ public class GA {
             for (int interIndividu = 0; interIndividu < population; ++interIndividu) {
                 generasi.get(interIndividu).updateFitnessIndividu(training);
             }
+            System.out.println("FV="+generasi.get(0).fitnessValue);
             /* Other termination state */
             int fitnessPop = fitnessPopulation() ;
             float accuracy = (float)fitnessPop / training.size();
+            
+            /* Make Chaos */
+//            if(oldAcc==accuracy){
+//                stagnant= stagnant+1;
+//            }
+//            if(stagnant%50==0){
+//                population = population+population/100;
+//            }
+            oldAcc=accuracy;
             System.out.println("Generasi ke:" + generationCounter+", popul="+generasi.size()+", acc = "+accuracy);
             if (accuracy >= CONSTANT.DESIRED_ACCURATION) {
                 doSecondStage = false;
