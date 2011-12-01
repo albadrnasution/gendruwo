@@ -22,6 +22,11 @@ public class RandomGendruwo extends Random {
             float u = random.nextFloat(STARTF, ENDF);
             System.out.println("Generated: "+u);
         }
+        
+        int inete = 1280;
+        int siz = 8124;
+        float hasil = (float)inete/siz;
+        System.out.println(hasil);
     }
 
     public int nextInt(int aStart, int aEnd) {
