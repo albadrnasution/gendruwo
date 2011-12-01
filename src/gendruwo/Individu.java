@@ -72,8 +72,8 @@ public class Individu extends BitSet implements Comparable {
      * @return 
      */
     public boolean compare(Individu individuTraining) {
-        boolean same = true;
-        for (int i = 0; i < attributes.size() && same; ++i) {
+        boolean same = (individuTraining.get(0)==this.get(0));;
+        for (int i = 0; same && i < attributes.size(); ++i) {
             int part1Int = attributes.get(i).getPartInt(this);
             int part2Int = attributes.get(i).getPartInt(individuTraining);
             if (part2Int > attributes.get(i).pilihan.length()||part1Int > attributes.get(i).pilihan.length()) {
