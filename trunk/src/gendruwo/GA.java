@@ -86,12 +86,24 @@ public class GA {
         boolean doFristStage = true;
         int numgenerasi = 0;
         while (doFristStage) {
+            /*Prepare by Fitness Calculation*/
+            currentPopulation = generasi.size();
+            for (int idxOff = 0; idxOff < currentPopulation; ++idxOff) {
+                generasi.get(idxOff).updateFitnessIndividu(training);
+            }
+            Collections.sort(generasi);
+            System.out.println("FV[0]="+generasi.get(0).fitnessValue);
+            System.out.println("FV[N]="+generasi.get(generasi.size()-1).fitnessValue);
+            int fitnessPop = fitnessPopulation() ;
+            float accuracy = (float)fitnessPop / training.size();
+            System.out.println("Generasi ke:" + numgenerasi +", popul="+generasi.size()+", acc = "+accuracy);
+            
             /*Selection and Crossover*/
             float marriagePercentation = fsRand.nextFloat(CONSTANT.COVER_COUPLE_MIN, CONSTANT.COVER_COUPLE_MAX);
             int marriageCouple = (int) (marriagePercentation * currentPopulation);
             for (int marr = 0; marr < marriageCouple; marr++) {
-                int bridge = fsRand.nextInt(currentPopulation);
-                int broom = fsRand.nextInt(currentPopulation);
+                int bridge = fsRand.nextInt(generasi.size());
+                int broom = fsRand.nextInt(generasi.size());
                 int posisi1 = fsRand.nextInt(CONSTANT.CHROMOSOME_LEN);
                 int posisi2 = fsRand.nextInt(CONSTANT.CHROMOSOME_LEN);
                 if (posisi2 < posisi1) {
@@ -100,29 +112,33 @@ public class GA {
                     posisi1 -= posisi2;
                 }
                 if (posisi1 < posisi2) {
+//                    Individu groom = (Individu) generasi.get(broom).clone();
+//                    Individu bride = (Individu) generasi.get(bridge).clone();
+//                    offspring.add(groom);
+//                    offspring.add(bride);
                     Individu anak1 = (Individu) generasi.get(broom).clone();
-                    anak1.set(generasi.get(bridge), posisi1, posisi2); //anak1: pinggiran ibu, tengah bapak
                     Individu anak2 = (Individu) generasi.get(bridge).clone();
+                    anak1.set(generasi.get(bridge), posisi1, posisi2); //anak1: pinggiran ibu, tengah bapak
                     anak2.set(generasi.get(broom), posisi1, posisi2); //anak2: pinggiran bapak, tengah ibu
                     /*update generasi*/
-                    offspring.add(anak1);
-                    offspring.add(anak2);
+                    generasi.add(anak1);
+                    generasi.add(anak2);
                 }
             }
 
             /*Fitness Calculation*/
-            int offspringSize = offspring.size();
+            int offspringSize = generasi.size();
             for (int idxOff = 0; idxOff < offspringSize; ++idxOff) {
-                offspring.get(idxOff).updateFitnessIndividu(training);
+                generasi.get(idxOff).updateFitnessIndividu(training);
             }
-            int fitnessPop = fitnessPopulation() ;
-            float accuracy = (float)fitnessPop / training.size();
+            fitnessPop = fitnessPopulation() ;
+            accuracy = (float)fitnessPop / training.size();
             System.out.println("Generasi ke:" + numgenerasi +", popul="+generasi.size()+", acc = "+accuracy);
-            numgenerasi++;
 
             /*Sort next generation by fitness value*/
-            Collections.sort(offspring);
+            Collections.sort(generasi);
             /*Massacre parents (old generation)*/
+            offspring.addAll(generasi);
             generasi.clear();
             /*and prepare the chosen one (the best 99,2%parent population) 
              *for next generation, kill the rest too.
@@ -150,6 +166,7 @@ public class GA {
             if (currentPopulation <= initialPopulation * CONSTANT.TERMINAL_POP_FROM_INITIAL) {
                 doFristStage = false;
             }
+            numgenerasi++;
         }
     }
 
@@ -428,7 +445,7 @@ public class GA {
 //        }
         /* Trying to GA */
         GA putri = new GA();
-        putri.bacaTraining("agaricus-lepiota-sen.data");
+        putri.bacaTraining("agaricus-lepiota-varis.data");
         putri.doGA();
         for (int i = 0; i < putri.rules.size(); ++i) {
             putri.rules.get(i).print();
