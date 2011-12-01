@@ -19,10 +19,10 @@ public class CONSTANT {
     public static final float MUTATION_PROB = 0.008f;
     
     /*Penurunan populasi dari jumlah data set sampai jumlah terminal*/
-    public static final float DECAY_POP_RATE = 0.28f;    /*0.8%*/
-    
+    public static float DECAY_POP_RATE = 0.08f;    /*0.8%*/
+
     /*Jumlah terminal populasi dibanding jumlah awal populasi*/
-    public static final float TERMINAL_POP_FROM_INITIAL = 0.008f;    /*8%*/
+    public static float TERMINAL_POP_FROM_INITIAL = 0.08f;    /*8%*/
     
     /*Peluang minimum dan maksimum sebuah individu/kromosom terambil untuk cross-over*/
     public static final float COVER_RATE_MIN = 0.68f;       /*68%*/
