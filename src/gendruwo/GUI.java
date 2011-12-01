@@ -779,9 +779,9 @@ public class GUI extends javax.swing.JFrame {
     private void generate_btnMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generate_btnMouseReleased
         // TODO add your handling code here:
         //update CONSTANTs
-        CONSTANT.TERMINAL_POP_FROM_INITIAL = ((Integer) rule_size_c.getValue()).intValue()/100;
-        CONSTANT.DECAY_POP_RATE = ((Integer) delay_rate_c.getValue()).intValue()/1000;
-        CONSTANT.DESIRED_ACCURATION = ((Integer) desired_accuracy_c.getValue()).intValue()/100;
+        CONSTANT.TERMINAL_POP_FROM_INITIAL = ((Integer) rule_size_c.getValue()).intValue()/(float)100;
+        CONSTANT.DECAY_POP_RATE = ((Integer) delay_rate_c.getValue()).intValue()/(float)1000;
+        CONSTANT.DESIRED_ACCURATION = ((Integer) desired_accuracy_c.getValue()).intValue()/(float)100;
 
         //membaca file training
         ga.bacaTraining(training_loc.getText());

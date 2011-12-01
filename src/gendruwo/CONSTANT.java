@@ -10,7 +10,7 @@ package gendruwo;
  */
 public class CONSTANT {
     /*Pembatasan maksimum generasi yang mungkin*/
-    public static final int MAX_GENERATION = 88;
+    public static int MAX_GENERATION = 888;
     
     /*Fraksi populasi yang dimutasi terhadap jumlah populasi saat itu*/
     public static final float MUTATION_RATE = 0.08f;    /*8%*/
