@@ -143,6 +143,7 @@ public class GA {
             /*and prepare the chosen one (the best 99,2%parent population) 
              *for next generation, kill the rest too.
              */
+//            System.out.println("Decay:"+CONSTANT.DECAY_POP_RATE);
             int desiredPopulation = (int) ((1 - CONSTANT.DECAY_POP_RATE) * currentPopulation);
             for (int des = 0; des < desiredPopulation; ++des) {
                 generasi.add(offspring.get(des));
